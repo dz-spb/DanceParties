@@ -1,0 +1,9 @@
+*.suo
+bin/
+obj/
+.vs/
+*.pdb
+*.exe
+*.obj
+*.dll
+packages/
