@@ -10,7 +10,7 @@ using DanceParties.Interfaces.Services;
 using Location = DanceParties.Interfaces.BusinessModels.Location;
 using LocationEntity = DanceParties.Data.Models.Location;
 
-namespace LocationParties.BusinessLogic
+namespace DanceParties.BusinessLogic
 {
     public class LocationService : ILocationService
     {

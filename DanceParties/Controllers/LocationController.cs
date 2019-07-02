@@ -36,6 +36,12 @@ namespace LocationParties.Controllers
         {
             return new StatusCodeResult(501);
         }
+       
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody]Location value)
+        {
+            return new StatusCodeResult(501);
+        }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)

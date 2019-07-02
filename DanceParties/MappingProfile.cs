@@ -18,8 +18,8 @@ namespace DanceParties
             CreateMap<Dto.Dance, BusinessModels.Dance>();
             CreateMap<BusinessModels.Location, Dto.Location>();
             CreateMap<Dto.Location, BusinessModels.Location>();
-            CreateMap<BusinessModels.Party, Dto.Party>();
-            CreateMap<Dto.Party, BusinessModels.Party>();
+            CreateMap<BusinessModels.Party, Dto.PartyResponse>();
+            CreateMap<Dto.PartyRequest, BusinessModels.Party>();
         }
     }
 }

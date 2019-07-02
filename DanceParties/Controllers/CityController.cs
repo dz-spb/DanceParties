@@ -37,6 +37,12 @@ namespace DanceParties.Controllers
             return new StatusCodeResult(501);
         }
 
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody]City value)
+        {
+            return new StatusCodeResult(501);
+        }
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

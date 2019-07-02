@@ -1,20 +1,21 @@
-﻿using DanceParties.Interfaces.DTO;
+﻿using DanceParties.Interfaces.BusinessModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DanceParties.Interfaces.Services
 {
     public interface IPartyService
     {
-        Party GetParty(int id);
+        Task<Party> GetParty(int id);
 
-        Party AddParty(Party party);
+        Task<Party> AddParty(Party party);
 
-        Party EditParty(Party party);
+        Task EditParty(int id, Party party);
 
-        void DeleteParty(int id);
+        Task DeleteParty(int id);
 
-        List<Party> GetParties();
+        Task<List<Party>> GetParties();
     }
 }

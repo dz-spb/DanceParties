@@ -11,6 +11,9 @@ using Microsoft.Extensions.Configuration;
 using DanceParties.Interfaces.Services;
 using DanceParties.BusinessLogic;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
+using System.IO;
+using DanceParties.Logger;
 
 namespace DanceParties
 {
@@ -50,15 +53,23 @@ namespace DanceParties
 
             services.AddMvc();
 
-            services.AddTransient<ICityService, CityService>();
+            services.AddLogging();
+
+            services.AddScoped<ICityService, CityService>();
+            services.AddScoped<IDanceService, DanceService>();
+            services.AddScoped<ILocationService, LocationService>();
+            services.AddScoped<IPartyService, PartyService>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseReact(config => { });
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseMvc();
+
+            //loggerFactory.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "logger.txt"));
+            //var logger = loggerFactory.CreateLogger("FileLogger");
         }
     }
 }

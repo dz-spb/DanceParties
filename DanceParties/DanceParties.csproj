@@ -23,8 +23,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DanceParties.BusinessLogic\DanceParties.BusinessLogic.csproj" />
-    <ProjectReference Include="..\DanceParties.Data\DanceParties.Data.csproj" />
     <ProjectReference Include="..\DanceParties.Interfaces\DanceParties.Interfaces.csproj" />
+    <ProjectReference Include="..\DanceParties.Logger\DanceParties.Logger.csproj" />
   </ItemGroup>
 
 </Project>
