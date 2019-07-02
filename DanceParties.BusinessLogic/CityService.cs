@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using DanceParties.Interfaces.Exceptions;
 using DanceParties.Data.Models;
 using DanceParties.Interfaces.Services;
-using City = DanceParties.Interfaces.DTO.City;
+using City = DanceParties.Interfaces.BusinessModels.City;
 using CityEntity = DanceParties.Data.Models.City;
 
 namespace DanceParties.BusinessLogic

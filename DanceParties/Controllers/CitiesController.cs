@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DanceParties.Interfaces.DTO;
-using DanceParties.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
+using DanceParties.Interfaces.DTO;
+using DanceParties.Interfaces.Services;
 
 namespace DanceParties.Controllers
 {
@@ -14,16 +15,20 @@ namespace DanceParties.Controllers
     public class CitiesController : ControllerBase
     {
         private readonly ICityService _cityService;
+        private readonly IMapper _mapper;
 
-        public CitiesController(ICityService cityService)
+        public CitiesController(ICityService cityService, IMapper mapper)
         {
             _cityService = cityService;
+            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
         public async Task<City> Get(int id)
         {
-            return await _cityService.GetCity(id);
+            var model = await _cityService.GetCity(id);
+            var dto = _mapper.Map<City>(model);
+            return dto;
         }
 
         [HttpPost]

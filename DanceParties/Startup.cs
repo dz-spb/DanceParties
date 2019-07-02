@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using DanceParties.Interfaces.Services;
 using DanceParties.BusinessLogic;
+using AutoMapper;
 
 namespace DanceParties
 {
@@ -38,6 +39,14 @@ namespace DanceParties
 
             string connection = Configuration.GetConnectionString("MainDatabase");
             services.AddDbContext<DancePartiesContext>(options => options.UseSqlServer(connection));
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
             services.AddMvc();
 

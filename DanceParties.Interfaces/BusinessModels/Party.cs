@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DanceParties.Interfaces.DTO
+namespace DanceParties.Interfaces.BusinessModels
 {
     public class Party
     {
@@ -10,7 +10,7 @@ namespace DanceParties.Interfaces.DTO
 
         public string Dance { get; set; }
 
-        public string Name { get; set; }
+        public string Name { get; set; }      
 
         public DateTimeOffset DateTime { get; set; }
 

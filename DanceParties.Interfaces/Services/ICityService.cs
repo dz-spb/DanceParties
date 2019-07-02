@@ -1,4 +1,4 @@
-﻿using DanceParties.Interfaces.DTO;
+﻿using DanceParties.Interfaces.BusinessModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
