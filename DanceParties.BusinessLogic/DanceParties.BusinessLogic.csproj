@@ -13,4 +13,9 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DanceParties.Data\DanceParties.Data.csproj" />
+    <ProjectReference Include="..\DanceParties.Interfaces\DanceParties.Interfaces.csproj" />
+  </ItemGroup>
+
 </Project>

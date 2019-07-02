@@ -39,7 +39,7 @@ namespace DanceParties.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            Party party = data.FirstOrDefault(x => x.Id == id);
+            var party = data.FirstOrDefault(x => x.Id == id);
             if (party == null)
             {
                 return NotFound();

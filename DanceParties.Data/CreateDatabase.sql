@@ -1,70 +1,70 @@
-﻿--CREATE DATABASE [DanceParties];
---GO
+﻿CREATE DATABASE [DanceParties2];
+GO
 
 USE [DanceParties];
 GO
 
-CREATE TABLE [dbo].[Cities] (
+CREATE TABLE [dbo].[City] (
     [Id]   INT            NOT NULL IDENTITY,
     [Name] NVARCHAR (100) NOT NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 GO
 
-CREATE TABLE [dbo].[Dances] (
+CREATE TABLE [dbo].[Dance] (
     [Id]   INT            NOT NULL IDENTITY,
     [Name] NVARCHAR (100) NOT NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 GO
 
-CREATE TABLE [dbo].[Locations] (
+CREATE TABLE [dbo].[Location] (
     [Id]      INT            NOT NULL IDENTITY,
     [CityId]  INT            NOT NULL,
 	[Name]	  NVARCHAR (100) NOT NULL,
     [Address] NVARCHAR (100),
     PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK_Locations_Cities] FOREIGN KEY ([CityId]) REFERENCES [dbo].[Cities] ([Id])
+    CONSTRAINT [FK_Location_City] FOREIGN KEY ([CityId]) REFERENCES [dbo].[City] ([Id])
 );
 GO
 
-CREATE TABLE [dbo].[Parties] (
+CREATE TABLE [dbo].[Party] (
     [Id]		INT               NOT NULL IDENTITY,
     [LocationId]	INT           NOT NULL,
     [DanceId]	INT               NOT NULL,
 	[Name]		NVARCHAR(100),
     [DateTime]	DATETIMEOFFSET (7) NOT NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK_Parties_Locations] FOREIGN KEY ([LocationId]) REFERENCES [dbo].[Locations] ([Id]),
-    CONSTRAINT [FK_Parties_Dances] FOREIGN KEY ([DanceId]) REFERENCES [dbo].[Dances] ([Id])
+    CONSTRAINT [FK_Party_Location] FOREIGN KEY ([LocationId]) REFERENCES [dbo].[Location] ([Id]),
+    CONSTRAINT [FK_Party_Dance] FOREIGN KEY ([DanceId]) REFERENCES [dbo].[Dance] ([Id])
 );
 GO
 
-SET IDENTITY_INSERT [dbo].[Cities] ON
+SET IDENTITY_INSERT [dbo].[City] ON
 
-INSERT INTO [dbo].[Cities] ([Id], [Name]) VALUES
+INSERT INTO [dbo].[City] ([Id], [Name]) VALUES
 (1, 'Санкт-Петебург'),
 (2, 'Москва'),
 (3, 'Минск')
 
-SET IDENTITY_INSERT [dbo].[Cities] OFF
+SET IDENTITY_INSERT [dbo].[City] OFF
 
 GO
 
-SET IDENTITY_INSERT [dbo].[Dances] ON
+SET IDENTITY_INSERT [dbo].[Dance] ON
 
-INSERT INTO [dbo].[Dances] ([Id], [Name]) VALUES
+INSERT INTO [dbo].[Dance] ([Id], [Name]) VALUES
 (1, 'Сальса'),
 (2, 'Бачата'),
 (3, 'Хастл')
 
-SET IDENTITY_INSERT [dbo].[Dances] OFF
+SET IDENTITY_INSERT [dbo].[Dance] OFF
 
 GO
 
-SET IDENTITY_INSERT [dbo].[Locations] ON
+SET IDENTITY_INSERT [dbo].[Location] ON
 
-INSERT INTO [dbo].[Locations] ([Id], [CityId], [Name], [Address]) VALUES
+INSERT INTO [dbo].[Location] ([Id], [CityId], [Name], [Address]) VALUES
 (1, 1, 'Tropikana-Atrium', 'Невский 71'),
 (2, 1, 'AnyDay', 'Херсонская 12-14'),
 (3, 1, 'Ростральные колонны, зимняя площадка', 'Стрелка В.О.'),
@@ -75,6 +75,6 @@ INSERT INTO [dbo].[Locations] ([Id], [CityId], [Name], [Address]) VALUES
 (8, 2, 'Liberty Bar', NULL),
 (9, 2, 'Хастл ОпенЭир на Набережной', 'Пушкинская набережная')
 
-SET IDENTITY_INSERT [dbo].[Locations] OFF
+SET IDENTITY_INSERT [dbo].[Location] OFF
 
 GO

@@ -8,6 +8,8 @@ using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
 using DanceParties.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using DanceParties.Interfaces.Services;
+using DanceParties.BusinessLogic;
 
 namespace DanceParties
 {
@@ -38,6 +40,8 @@ namespace DanceParties
             services.AddDbContext<DancePartiesContext>(options => options.UseSqlServer(connection));
 
             services.AddMvc();
+
+            services.AddTransient<ICityService, CityService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

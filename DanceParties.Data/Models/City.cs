@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace DanceParties.Data.Models
 {
-    public partial class Cities
+    public partial class City
     {
-        public Cities()
+        public City()
         {
-            Locations = new HashSet<Locations>();
+            Location = new HashSet<Location>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<Locations> Locations { get; set; }
+        public virtual ICollection<Location> Location { get; set; }
     }
 }

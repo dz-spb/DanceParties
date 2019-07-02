@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DanceParties.Data.Models
 {
-    public partial class Parties
+    public partial class Party
     {
         public int Id { get; set; }
         public int LocationId { get; set; }
@@ -11,7 +11,7 @@ namespace DanceParties.Data.Models
         public string Name { get; set; }
         public DateTimeOffset DateTime { get; set; }
 
-        public virtual Dances Dance { get; set; }
-        public virtual Locations Location { get; set; }
+        public virtual Dance Dance { get; set; }
+        public virtual Location Location { get; set; }
     }
 }

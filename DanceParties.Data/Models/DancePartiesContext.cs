@@ -16,17 +16,17 @@ namespace DanceParties.Data.Models
             Database.EnsureCreated();
         }
 
-        public virtual DbSet<Cities> Cities { get; set; }
-        public virtual DbSet<Dances> Dances { get; set; }
-        public virtual DbSet<Locations> Locations { get; set; }
-        public virtual DbSet<Parties> Parties { get; set; }
+        public virtual DbSet<City> City { get; set; }
+        public virtual DbSet<Dance> Dance { get; set; }
+        public virtual DbSet<Location> Location { get; set; }
+        public virtual DbSet<Party> Party { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 //            if (!optionsBuilder.IsConfigured)
 //            {
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-//                optionsBuilder.UseSqlServer("Server=(localdb)\\sqlexpress;Database=DanceParties;Trusted_Connection=True;");
+//                optionsBuilder.UseSqlServer("Server=insight-15\\sqlexpress;Database=DanceParties;Trusted_Connection=True;");
 //            }
         }
 
@@ -34,21 +34,21 @@ namespace DanceParties.Data.Models
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
 
-            modelBuilder.Entity<Cities>(entity =>
+            modelBuilder.Entity<City>(entity =>
             {
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(100);
             });
 
-            modelBuilder.Entity<Dances>(entity =>
+            modelBuilder.Entity<Dance>(entity =>
             {
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(100);
             });
 
-            modelBuilder.Entity<Locations>(entity =>
+            modelBuilder.Entity<Location>(entity =>
             {
                 entity.Property(e => e.Address).HasMaxLength(100);
 
@@ -57,27 +57,27 @@ namespace DanceParties.Data.Models
                     .HasMaxLength(100);
 
                 entity.HasOne(d => d.City)
-                    .WithMany(p => p.Locations)
+                    .WithMany(p => p.Location)
                     .HasForeignKey(d => d.CityId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Locations_Cities");
+                    .HasConstraintName("FK_Location_City");
             });
 
-            modelBuilder.Entity<Parties>(entity =>
+            modelBuilder.Entity<Party>(entity =>
             {
                 entity.Property(e => e.Name).HasMaxLength(100);
 
                 entity.HasOne(d => d.Dance)
-                    .WithMany(p => p.Parties)
+                    .WithMany(p => p.Party)
                     .HasForeignKey(d => d.DanceId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Parties_Dances");
+                    .HasConstraintName("FK_Party_Dance");
 
                 entity.HasOne(d => d.Location)
-                    .WithMany(p => p.Parties)
+                    .WithMany(p => p.Party)
                     .HasForeignKey(d => d.LocationId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Parties_Locations");
+                    .HasConstraintName("FK_Party_Location");
             });
         }
     }
