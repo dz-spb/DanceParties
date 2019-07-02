@@ -1,14 +1,15 @@
-﻿using DanceParties.Interfaces.DTO;
+﻿using DanceParties.Interfaces.BusinessModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DanceParties.Interfaces.Services
 {
     public interface ILocationService
     {
-        Location GetLocation(int id);
+        Task<Location> GetLocation(int id);
 
-        List<Location> GetLocations();
+        Task<List<Location>> GetLocations();
     }
 }

@@ -11,7 +11,7 @@
     render() {
         return <div>
             <p>танец: <b>{this.state.data.dance}</b></p>
-            <p>место: {this.state.data.place}</p>
+            <p>место: {this.state.data.location}</p>
             <p>адрес: {this.state.data.address}</p>
             <p>город: {this.state.data.city}</p>
             <p><button onClick={this.onClick}>Удалить</button></p>
@@ -23,19 +23,19 @@ class PartyForm extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { dance: "", place: "", address: "", city: "" };
+        this.state = { dance: "", location: "", address: "", city: "" };
 
         this.onSubmit = this.onSubmit.bind(this);
         this.onDanceChange = this.onDanceChange.bind(this);
-        this.onPlaceChange = this.onPlaceChange.bind(this);
+        this.onLocationChange = this.onLocationChange.bind(this);
         this.onAddressChange = this.onAddressChange.bind(this);
         this.onCityChange = this.onCityChange.bind(this);
     }
     onDanceChange(e) {
         this.setState({ dance: e.target.value });
     }
-    onPlaceChange(e) {
-        this.setState({ place: e.target.value });
+    onLocationChange(e) {
+        this.setState({ location: e.target.value });
     }
     onAddressChange(e) {
         this.setState({ address: e.target.value });
@@ -46,14 +46,14 @@ class PartyForm extends React.Component {
     onSubmit(e) {
         e.preventDefault();
         var partyDance = this.state.dance.trim();
-        var partyPlace = this.state.place;
+        var partyLocation = this.state.location;
         var partyAddress = this.state.address;
         var partyCity = this.state.city;
-        if (!partyDance || !partyPlace || !partyAddress || !partyCity) {
+        if (!partyDance || !partyLocation || !partyAddress || !partyCity) {
             return;
         }
-        this.props.onPartySubmit({ dance: partyDance, place: partyPlace, address: partyAddress, city: partyCity });
-        this.setState({ dance: "", place: "", address: "", city: "" });
+        this.props.onPartySubmit({ dance: partyDance, location: partyLocation, address: partyAddress, city: partyCity });
+        this.setState({ dance: "", location: "", address: "", city: "" });
     }
     render() {
         return (
@@ -66,9 +66,9 @@ class PartyForm extends React.Component {
                 </p>
                 <p>
                     <input type="text"
-                        placeholder="Place"
-                        value={this.state.place}
-                        onChange={this.onPlaceChange} />
+                        placeholder="Location"
+                        value={this.state.location}
+                        onChange={this.onLocationChange} />
                 </p>
                 <p>
                     <input type="text"
@@ -115,7 +115,7 @@ class PartysList extends React.Component {
     onAddParty(party) {
         if (party) {
 
-            var data = JSON.stringify({ "dance": party.dance, "place": party.place, "address": party.address, "city": party.city });
+            var data = JSON.stringify({ "dance": party.dance, "location": party.location, "address": party.address, "city": party.city });
             var xhr = new XMLHttpRequest();
 
             xhr.open("post", this.props.apiUrl, true);

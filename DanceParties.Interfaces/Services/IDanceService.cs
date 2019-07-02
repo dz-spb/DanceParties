@@ -1,14 +1,15 @@
-﻿using DanceParties.Interfaces.DTO;
+﻿using DanceParties.Interfaces.BusinessModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DanceParties.Interfaces.Services
 {
     public interface IDanceService
     {
-        Dance GetDance(int id);
+        Task<Dance> GetDance(int id);
 
-        List<Dance> GetDances();
+        Task<List<Dance>> GetDances();
     }
 }

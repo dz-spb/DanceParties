@@ -14,7 +14,7 @@ namespace DanceParties.Interfaces.DTO
 
         public DateTimeOffset DateTime { get; set; }
 
-        public string Place { get; set; }
+        public string Location { get; set; }
 
         public string Address { get; set; }
 

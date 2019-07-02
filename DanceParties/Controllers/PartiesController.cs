@@ -17,8 +17,8 @@ namespace DanceParties.Controllers
         {
             data = new List<Party>
             {
-                new Party { Id = 1, Dance = "Бачата", Place = "ресторан AnyDay", Address = "Херсонская ул., 12-14", City = "Санкт-Петербург" },
-                new Party { Id = 2, Dance = "Хастл", Place = "Ростральные колонны, зимняя площадка", Address = "Стрелка В.О.", City = "Санкт-Петербург" }
+                new Party { Id = 1, Dance = "Бачата", Location = "ресторан AnyDay", Address = "Херсонская ул., 12-14", City = "Санкт-Петербург" },
+                new Party { Id = 2, Dance = "Хастл", Location = "Ростральные колонны, зимняя площадка", Address = "Стрелка В.О.", City = "Санкт-Петербург" }
             };
         }
 

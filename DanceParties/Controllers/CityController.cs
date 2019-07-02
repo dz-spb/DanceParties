@@ -10,14 +10,14 @@ using DanceParties.Interfaces.Services;
 
 namespace DanceParties.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/cities")]
     [ApiController]
-    public class CitiesController : ControllerBase
+    public class CityController : ControllerBase
     {
         private readonly ICityService _cityService;
         private readonly IMapper _mapper;
 
-        public CitiesController(ICityService cityService, IMapper mapper)
+        public CityController(ICityService cityService, IMapper mapper)
         {
             _cityService = cityService;
             _mapper = mapper;
