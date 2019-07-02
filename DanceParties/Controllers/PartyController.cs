@@ -14,7 +14,7 @@ namespace DanceParties.Controllers
 {
     [Route("api/parties")]
     [ApiController]
-    public class PartyController : ControllerBase
+    public class PartyController : AbstractController
     {
         private readonly IPartyService _partyService;
         private readonly IMapper _mapper;
@@ -74,17 +74,10 @@ namespace DanceParties.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            //var party = data.FirstOrDefault(x => x.Id == id);
-            //if (party == null)
-            //{
-            //    return NotFound();
-            //}
-            //data.Remove(party);
-            //return Ok(party);
-
-            return Ok();
+            await _partyService.DeleteParty(id);
+            return NoContent();
         }
     }
 }

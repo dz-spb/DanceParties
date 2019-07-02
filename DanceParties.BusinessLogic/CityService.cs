@@ -26,23 +26,19 @@ namespace DanceParties.BusinessLogic
             var entity = await _dataContext.City.SingleOrDefaultAsync(c => c.Id == id);
             if (entity == null)
             {
-                throw new BusinessException("Unknown city id");
+                throw new NotExistsException("Unknown city id");
             }
 
-            return new City
-            {
-                Id = entity.Id,
-                Name = entity.Name
-            };
+            return ToModel(entity);
         }
 
         public Task<List<City>> GetCities()
         {
-            var entities = _dataContext.City.Select(ToDto).ToList();
+            var entities = _dataContext.City.Select(ToModel).ToList();
             return Task.FromResult(entities);
         }
 
-        private City ToDto(CityEntity entity)
+        private City ToModel(CityEntity entity)
         {
             return new City
             {

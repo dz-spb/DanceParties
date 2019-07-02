@@ -12,7 +12,7 @@ namespace DanceParties.Controllers
 {
     [Route("api/cities")]
     [ApiController]
-    public class CityController : ControllerBase
+    public class CityController : AbstractController
     {
         private readonly ICityService _cityService;
         private readonly IMapper _mapper;
@@ -34,19 +34,19 @@ namespace DanceParties.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]City city)
         {
-            return new StatusCodeResult(501);
+            return NotImplemented();
         }
 
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]City value)
         {
-            return new StatusCodeResult(501);
+            return NotImplemented();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            return new StatusCodeResult(501);
+            return NotImplemented();
         }
     }
 }

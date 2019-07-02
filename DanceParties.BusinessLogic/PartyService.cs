@@ -43,12 +43,14 @@ namespace DanceParties.BusinessLogic
             entity.DanceId = party.DanceId;
             entity.Name = party.Name;
             entity.Start = party.Start;
+            await _dataContext.SaveChangesAsync();
         }
 
         public async Task DeleteParty(int id)
         {
             var entity = await GetEntity(id);
             _dataContext.Party.Remove(entity);
+            await _dataContext.SaveChangesAsync();
         }
 
         public Task<List<Party>> GetParties()

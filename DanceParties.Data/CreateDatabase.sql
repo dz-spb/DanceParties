@@ -33,7 +33,7 @@ CREATE TABLE [dbo].[Party] (
     [LocationId]	INT           NOT NULL,
     [DanceId]	INT               NOT NULL,
 	[Name]		NVARCHAR(100),
-    [DateTime]	DATETIMEOFFSET (7) NOT NULL,
+    [Start]	DATETIMEOFFSET (0) NOT NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Party_Location] FOREIGN KEY ([LocationId]) REFERENCES [dbo].[Location] ([Id]),
     CONSTRAINT [FK_Party_Dance] FOREIGN KEY ([DanceId]) REFERENCES [dbo].[Dance] ([Id])

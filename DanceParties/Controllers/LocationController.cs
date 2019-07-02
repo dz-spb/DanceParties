@@ -7,12 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using DanceParties.Interfaces.DTO;
 using DanceParties.Interfaces.Services;
+using System.Net;
 
-namespace LocationParties.Controllers
+namespace DanceParties.Controllers
 {
     [Route("api/locations")]
     [ApiController]
-    public class LocationController : ControllerBase
+    public class LocationController : AbstractController
     {
         private readonly ILocationService _locationService;
         private readonly IMapper _mapper;
@@ -34,19 +35,19 @@ namespace LocationParties.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]Location city)
         {
-            return new StatusCodeResult(501);
+            return NotImplemented();
         }
        
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]Location value)
         {
-            return new StatusCodeResult(501);
+            return NotImplemented();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            return new StatusCodeResult(501);
-        }
+            return NotImplemented();
+        }     
     }
 }

@@ -44,9 +44,10 @@ GO
 SET IDENTITY_INSERT [dbo].[Party] ON
 
 INSERT INTO [dbo].[Party] ([Id], [LocationId], [DanceId], [Name], [Start]) VALUES
-(1, 1, 1, 'Salsa & Bachata - Rueda Party', '2019-07-03T17:30+0300'),
-(1, 1, 2, 'The Best of Bachata', '2019-07-04T17:30+0300'),
-(1, 3, 3, 'Hustle Open Air', '2019-07-06T10:00+0300'),
-(1, 10, 1, 'Salsa Plus open air', '2019-07-05T10:00+0300')
+(1, 1, 1, 'Salsa & Bachata - Rueda Party', '2019-07-03T17:30:00+03:00'),
+(2, 1, 2, 'The Best of Bachata', '2019-07-04T17:30:00+03:00'),
+(3, 3, 3, 'Hustle Open Air', '2019-07-06T17:00:00+03:00'),
+(4, 10, 1, 'Salsa Plus open air', '2019-07-05T17:00:00+03:00'),
+(5, 9, 1, NULL, '2019-07-02T17:00:00+03:00')
 
 SET IDENTITY_INSERT [dbo].[Party] OFF

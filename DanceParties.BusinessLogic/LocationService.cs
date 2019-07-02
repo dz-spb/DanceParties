@@ -23,31 +23,31 @@ namespace DanceParties.BusinessLogic
 
         public async Task<Location> GetLocation(int id)
         {
-            var entity = await _dataContext.Location.SingleOrDefaultAsync(c => c.Id == id);
+            var entity = await _dataContext.Location
+                .Include(l => l.City)
+                .SingleOrDefaultAsync(c => c.Id == id);
             if (entity == null)
             {
-                throw new BusinessException("Unknown dance id");
+                throw new NotExistsException("Unknown dance id");
             }
 
-            return new Location
-            {
-                Id = entity.Id,
-                Name = entity.Name
-            };
+            return ToModel(entity);
         }
 
         public Task<List<Location>> GetLocations()
         {
-            var entities = _dataContext.Location.Select(ToDto).ToList();
+            var entities = _dataContext.Location.Select(ToModel).ToList();
             return Task.FromResult(entities);
         }
 
-        private Location ToDto(LocationEntity entity)
+        private Location ToModel(LocationEntity entity)
         {
             return new Location
             {
                 Id = entity.Id,
-                Name = entity.Name
+                Name = entity.Name,
+                Address = entity.Address,
+                City = entity.City.Name
             };
         }
     }

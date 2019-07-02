@@ -12,7 +12,7 @@ namespace DanceParties.Controllers
 {
     [Route("api/dances")]
     [ApiController]
-    public class DanceController : ControllerBase
+    public class DanceController : AbstractController
     {
         private readonly IDanceService _danceService;
         private readonly IMapper _mapper;
@@ -34,19 +34,19 @@ namespace DanceParties.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]Dance city)
         {
-            return new StatusCodeResult(501);
+            return NotImplemented();
         }
 
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]Dance value)
         {
-            return new StatusCodeResult(501);
+            return NotImplemented();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            return new StatusCodeResult(501);
+            return NotImplemented();
         }
     }
 }

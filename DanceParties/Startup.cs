@@ -41,7 +41,7 @@ namespace DanceParties
             });
 
             string connection = Configuration.GetConnectionString("MainDatabase");
-            services.AddDbContext<DancePartiesContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<DancePartiesContext>(options => options.UseSqlServer(connection), ServiceLifetime.Transient);
 
             var mappingConfig = new MapperConfiguration(mc =>
             {
@@ -66,10 +66,8 @@ namespace DanceParties
             app.UseReact(config => { });
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.ConfigureCustomExceptionMiddleware();
             app.UseMvc();
-
-            //loggerFactory.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "logger.txt"));
-            //var logger = loggerFactory.CreateLogger("FileLogger");
         }
     }
 }
