@@ -36,7 +36,10 @@ namespace DanceParties.BusinessLogic
 
         public Task<List<Location>> GetLocations()
         {
-            var entities = _dataContext.Location.Select(ToModel).ToList();
+            var entities = _dataContext.Location
+                .Include(l => l.City)
+                .Select(ToModel)
+                .ToList();
             return Task.FromResult(entities);
         }
 

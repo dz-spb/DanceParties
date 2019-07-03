@@ -28,58 +28,91 @@ class PartyForm extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { name: "", dance: "", location: "", address: "", city: "", start: ""};
+        this.state = { name: "", start: "", danceId: -1, locationId: -1, dances: [], locations: [] };
 
         this.onSubmit = this.onSubmit.bind(this);
         this.onNameChange = this.onNameChange.bind(this);
-        this.onDanceChange = this.onDanceChange.bind(this);
-        this.onLocationChange = this.onLocationChange.bind(this);
-        this.onAddressChange = this.onAddressChange.bind(this);
-        this.onCityChange = this.onCityChange.bind(this);
+        this.onDanceIdChange = this.onDanceIdChange.bind(this);
+        this.onLocationIdChange = this.onLocationIdChange.bind(this);
         this.onStartChange = this.onStartChange.bind(this);
     }
     createDanceItems() {
-        console.log("createDanceItems");        
-        //var selectElement = document.getElementById("dance-select");
-        //this.state.dances.map(function (d) {
-        //    selectElement.appendChild(<option value={d.id}>{d.name}</option>);
-        //}
-        //let items = [];
-        //this.state.dances.forEach(function (d) {
-        //    items.push(<option value={d.id}>{d.name}</option>);
-            //});
-        //return items;        
+        let items = [];
+        this.state.dances.forEach(function (d) {
+            items.push(<option value={d.id} key={d.id}>{d.name}</option>);
+        });
+        return items;
     }  
+    createLocationItems() {
+        let items = [];
+        this.state.locations.forEach(function (l) {
+            items.push(<option value={l.id} key={l.id}>{l.name}, {l.address}, {l.city}</option>);
+        });
+        return items;
+    }
+    loadListData(url, addDataToState, stateObject) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("get", url, true);
+        xhr.onload = function () {
+            if (xhr.status == 200) {
+                var data = JSON.parse(xhr.responseText);
+                addDataToState(stateObject);
+            }
+        }.bind(this);
+        xhr.send();
+    }
     loadData() {
-        //console.log("loadData");
-        //var xhr = new XMLHttpRequest();
-        //xhr.open("get", this.props.dancesUrl, true);
-        //xhr.onload = function () {
-        //    var data = JSON.parse(xhr.responseText);
-        //    this.setState({ dances: data });
-        //    console.log("onload");
-        //    this.createDanceItems();
-        //}.bind(this);
-        //xhr.send();
+        //this.loadListData(
+        //    this.props.dancesUrl,
+        //    this.setState,
+        //    {
+        //        dances: data
+        //    }
+        //);
+
+        //this.loadListData(
+        //    this.props.locationsUrl,            
+        //    this.setState,
+        //    {
+        //        locations: data
+        //    }
+        //);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("get", this.props.dancesUrl, true);
+        xhr.onload = function () {
+            if (xhr.status == 200) {
+                var data = JSON.parse(xhr.responseText);
+                this.setState({
+                    dances: data
+                });
+            }
+        }.bind(this);
+        xhr.send();
+
+        var xhr2 = new XMLHttpRequest();
+        xhr2.open("get", this.props.locationsUrl, true);
+        xhr2.onload = function () {
+            if (xhr2.status == 200) {
+                var data = JSON.parse(xhr2.responseText);
+                this.setState({
+                    locations: data
+                });
+            }
+        }.bind(this);
+        xhr2.send();
     }
     componentDidMount() {
-        console.log("componentDidMount");
         this.loadData();
     } 
     onNameChange(e) {
         this.setState({ name: e.target.value });
+    }  
+    onDanceIdChange(e) {     
+        this.setState({ danceId: e.target.value });
     }
-    onDanceChange(e) {
-        this.setState({ dance: e.target.value });
-    }
-    onLocationChange(e) {
-        this.setState({ location: e.target.value });
-    }
-    onAddressChange(e) {
-        this.setState({ address: e.target.value });
-    }
-    onCityChange(e) {
-        this.setState({ city: e.target.value });
+    onLocationIdChange(e) {
+        this.setState({ locationId: e.target.value });
     }
     onStartChange(e) {
         this.setState({ start: e.target.value });
@@ -87,21 +120,17 @@ class PartyForm extends React.Component {
     onSubmit(e) {
         e.preventDefault();
         var partyName = this.state.name.trim();
-        var partyDance = this.state.dance.trim();
-        var partyLocation = this.state.location.trim();
-        var partyAddress = this.state.address.trim();
-        var partyCity = this.state.city.trim();
+        var partyLocationId = this.state.locationId;
         var partyStart = this.state.start;
-        if (!partyDance || !partyLocation || !partyAddress || !partyCity || !partyStart) {
-            return;
-        } else {
-            alert("Пожалуйста, заполните поля (название не обязательно)");
-        }
-        this.props.onPartySubmit({ name: partyName, dance: partyDance, location: partyLocation, address: partyAddress, city: partyCity, start: partyStart });
-        this.setState({ name: "", dance: "", location: "", address: "", city: "", start: "" });
+        var partyDanceId = this.state.danceId;
+        //if (!partyLocation || !partyAddress || !partyCity || !partyStart) {
+        //    alert("Пожалуйста, заполните поля (название не обязательно)");
+        //    return;
+        //}
+        this.props.onPartySubmit({ name: partyName, locationId: partyLocationId, start: partyStart, danceId: partyDanceId });
+        this.setState({ name: "", locationId: -1, start: "", danceId: -1});
     }
     render() {
-        console.log("render");
         return (
             <form onSubmit={this.onSubmit}>
                 <p>
@@ -111,29 +140,14 @@ class PartyForm extends React.Component {
                         onChange={this.onNameChange} />
                 </p>
                 <p>
-                    <input type="text"
-                        placeholder="Dance"
-                        value={this.state.dance}
-                        onChange={this.onDanceChange} />
-                </p>
-
-                <p>
-                    <input type="text"
-                        placeholder="Location"
-                        value={this.state.location}
-                        onChange={this.onLocationChange} />
+                    <select value={this.state.danceId} onChange={this.onDanceIdChange}>
+                        {this.createDanceItems()}
+                    </select>
                 </p>
                 <p>
-                    <input type="text"
-                        placeholder="Address"
-                        value={this.state.address}
-                        onChange={this.onAddressChange} />
-                </p>
-                <p>
-                    <input type="text"
-                        placeholder="City"
-                        value={this.state.city}
-                        onChange={this.onCityChange} />
+                    <select value={this.state.locationId} onChange={this.onLocationIdChange}>
+                        {this.createLocationItems()}
+                    </select>
                 </p>
                 <p>
                     <input type="text"
@@ -174,13 +188,17 @@ class PartiesList extends React.Component {
     onAddParty(party) {
         if (party) {
 
-            var data = JSON.stringify({ "dance": party.dance, "location": party.location, "address": party.address, "city": party.city, "start": party.start });
+            var data = JSON.stringify({ "locationId": party.locationId, "start": party.start, "danceId": party.danceId });
+
+            console.log("onAddParty ", data);
+
             var xhr = new XMLHttpRequest();
 
             xhr.open("post", this.props.apiUrl, true);
             xhr.setRequestHeader("Content-type", "application/json");
             xhr.onload = function () {
-                if (xhr.status == 200) {
+                if (xhr.status == 200 || xhr.status == 201 || xhr.status == 204) {
+                    console.log("onAddParty - onload", xhr.status);
                     this.loadData();
                 }
             }.bind(this);
@@ -208,7 +226,7 @@ class PartiesList extends React.Component {
 
         var remove = this.onRemoveParty;
         return <div className='party-list'>
-            <PartyForm onPartySubmit={this.onAddParty} />
+            <PartyForm onPartySubmit={this.onAddParty} dancesUrl="/api/dances" locationsUrl="/api/locations" />
             <h2>Танцевальные вечеринки</h2>
             <div>
                 {
