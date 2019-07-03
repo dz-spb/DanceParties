@@ -18,9 +18,9 @@ namespace DanceParties.Controllers
         private readonly ILocationService _locationService;
         private readonly IMapper _mapper;
 
-        public LocationController(ILocationService danceService, IMapper mapper)
+        public LocationController(ILocationService locationService, IMapper mapper)
         {
-            _locationService = danceService;
+            _locationService = locationService;
             _mapper = mapper;
         }
 
@@ -30,6 +30,14 @@ namespace DanceParties.Controllers
             var model = await _locationService.GetLocation(id);
             var dto = _mapper.Map<Location>(model);
             return dto;
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<Location>> GetLocations()
+        {
+            var models = await _locationService.GetLocations();
+            var dtos = models.Select(_mapper.Map<Location>);
+            return dtos;
         }
 
         [HttpPost]

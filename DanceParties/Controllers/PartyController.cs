@@ -36,7 +36,7 @@ namespace DanceParties.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<PartyResponse>> GetAll()
+        public async Task<IEnumerable<PartyResponse>> GetParties()
         {
             var models = await _partyService.GetParties();
             var dtos = models.Select(_mapper.Map<PartyResponse>);

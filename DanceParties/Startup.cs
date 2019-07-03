@@ -41,7 +41,7 @@ namespace DanceParties
             });
 
             string connection = Configuration.GetConnectionString("MainDatabase");
-            services.AddDbContext<DancePartiesContext>(options => options.UseSqlServer(connection), ServiceLifetime.Transient);
+            services.AddDbContext<DancePartiesContext>(options => options.UseSqlServer(connection));
 
             var mappingConfig = new MapperConfiguration(mc =>
             {

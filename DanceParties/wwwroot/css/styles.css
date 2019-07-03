@@ -1,0 +1,8 @@
+﻿.party {
+    border: 1px dotted darkgray;
+    padding: 10px;
+}
+
+.party-list {
+    width: 50%;
+}

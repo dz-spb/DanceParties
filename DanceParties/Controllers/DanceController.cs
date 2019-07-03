@@ -31,6 +31,14 @@ namespace DanceParties.Controllers
             return dto;
         }
 
+        [HttpGet]
+        public async Task<IEnumerable<Dance>> GetDances()
+        {
+            var models = await _danceService.GetDances();
+            var dtos = models.Select(_mapper.Map<Dance>);
+            return dtos;
+        }
+
         [HttpPost]
         public IActionResult Post([FromBody]Dance city)
         {
