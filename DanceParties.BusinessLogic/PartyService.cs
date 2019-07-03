@@ -31,9 +31,10 @@ namespace DanceParties.BusinessLogic
         public async Task<Party> AddParty(Party party)
         {
             var entity = ToEntity(party);
-            var entityEntry = _dataContext.Party.Add(entity);
+            _dataContext.Party.Add(entity);
             await _dataContext.SaveChangesAsync();
-            var model = ToModel(entityEntry.Entity);
+            var createdEntity = await GetEntity(entity.Id);
+            var model = ToModel(createdEntity);
             return model;
         }
 

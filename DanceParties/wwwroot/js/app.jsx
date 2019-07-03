@@ -50,13 +50,13 @@ class PartyForm extends React.Component {
         });
         return items;
     }
-    loadListData(url, addDataToState, stateObject) {
+    loadListData(url, addDataToState, component) {
         var xhr = new XMLHttpRequest();
         xhr.open("get", url, true);
         xhr.onload = function () {
             if (xhr.status == 200) {
                 var data = JSON.parse(xhr.responseText);
-                addDataToState(stateObject);
+                addDataToState.call(component, data);
             }
         }.bind(this);
         xhr.send();
@@ -64,10 +64,12 @@ class PartyForm extends React.Component {
     loadData() {
         //this.loadListData(
         //    this.props.dancesUrl,
-        //    this.setState,
-        //    {
-        //        dances: data
-        //    }
+        //    function (d) {
+        //        this.setState({
+        //            locations: d
+        //        });
+        //    },
+        //    this
         //);
 
         //this.loadListData(
@@ -83,8 +85,11 @@ class PartyForm extends React.Component {
         xhr.onload = function () {
             if (xhr.status == 200) {
                 var data = JSON.parse(xhr.responseText);
+                var first = data[0];
+                var firstId = first == undefined ? -1 : first.id;
                 this.setState({
-                    dances: data
+                    dances: data,
+                    danceId: firstId
                 });
             }
         }.bind(this);
@@ -95,8 +100,11 @@ class PartyForm extends React.Component {
         xhr2.onload = function () {
             if (xhr2.status == 200) {
                 var data = JSON.parse(xhr2.responseText);
+                var first = data[0];
+                var firstId = first == undefined ? -1 : first.id;
                 this.setState({
-                    locations: data
+                    locations: data,
+                    locationId: firstId
                 });
             }
         }.bind(this);
@@ -121,12 +129,8 @@ class PartyForm extends React.Component {
         e.preventDefault();
         var partyName = this.state.name.trim();
         var partyLocationId = this.state.locationId;
-        var partyStart = this.state.start;
-        var partyDanceId = this.state.danceId;
-        //if (!partyLocation || !partyAddress || !partyCity || !partyStart) {
-        //    alert("Пожалуйста, заполните поля (название не обязательно)");
-        //    return;
-        //}
+        var partyStart = '2019-07-03T20:00:00+03:00'; // this.state.start;
+        var partyDanceId = this.state.danceId;     
         this.props.onPartySubmit({ name: partyName, locationId: partyLocationId, start: partyStart, danceId: partyDanceId });
         this.setState({ name: "", locationId: -1, start: "", danceId: -1});
     }
@@ -188,7 +192,7 @@ class PartiesList extends React.Component {
     onAddParty(party) {
         if (party) {
 
-            var data = JSON.stringify({ "locationId": party.locationId, "start": party.start, "danceId": party.danceId });
+            var data = JSON.stringify({ "name": party.name, "locationId": party.locationId, "start": party.start, "danceId": party.danceId });
 
             console.log("onAddParty ", data);
 

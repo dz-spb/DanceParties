@@ -54,9 +54,9 @@ namespace DanceParties.Controllers
             var model = _mapper.Map<Party>(dto);
 
             var createdModel = await _partyService.AddParty(model);
-            return CreatedAtRoute(
+            return CreatedAtAction(
                   "Get",
-                  new { Id = model.Id },
+                  new { Id = createdModel.Id },
                   createdModel);
         }
 
