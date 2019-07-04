@@ -55,66 +55,49 @@ class PartyForm extends React.Component {
         return items;
     }
 
-    loadListData(url, addDataToState, component) {
+    loadListData(url, addDataToState, getStateObject, component) {
         var xhr = new XMLHttpRequest();
         xhr.open("get", url, true);
         xhr.onload = function () {
             if (xhr.status == 200) {
                 var data = JSON.parse(xhr.responseText);
-                addDataToState.call(component, data);
+                var first = data[0];
+                var firstId = first == undefined ? -1 : first.id;
+                var stateObject = getStateObject(data, firstId);
+                addDataToState.call(component, stateObject);
             }
         }.bind(this);
         xhr.send();
     }
 
+    buildDanceState(data, id) {
+        return {
+            dances: data,
+            danceId: id
+        };
+    }
+
+    buildLocationState(data, id) {
+        return {
+            locations: data,
+            locationId: id
+        };
+    }
+
     loadData() {
-        //this.loadListData(
-        //    this.props.dancesUrl,
-        //    function (d) {
-        //        this.setState({
-        //            locations: d
-        //        });
-        //    },
-        //    this
-        //);
+        this.loadListData(
+            this.props.dancesUrl,
+            this.setState,
+            this.buildDanceState,
+            this
+        );
 
-        //this.loadListData(
-        //    this.props.locationsUrl,            
-        //    this.setState,
-        //    {
-        //        locations: data
-        //    }
-        //);
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("get", this.props.dancesUrl, true);
-        xhr.onload = function () {
-            if (xhr.status == 200) {
-                var data = JSON.parse(xhr.responseText);
-                var first = data[0];
-                var firstId = first == undefined ? -1 : first.id;
-                this.setState({
-                    dances: data,
-                    danceId: firstId
-                });
-            }
-        }.bind(this);
-        xhr.send();
-
-        var xhr2 = new XMLHttpRequest();
-        xhr2.open("get", this.props.locationsUrl, true);
-        xhr2.onload = function () {
-            if (xhr2.status == 200) {
-                var data = JSON.parse(xhr2.responseText);
-                var first = data[0];
-                var firstId = first == undefined ? -1 : first.id;
-                this.setState({
-                    locations: data,
-                    locationId: firstId
-                });
-            }
-        }.bind(this);
-        xhr2.send();
+        this.loadListData(
+            this.props.locationsUrl,
+            this.setState,
+            this.buildLocationState,
+            this
+        );  
     }
 
     componentDidMount() {
@@ -157,7 +140,7 @@ class PartyForm extends React.Component {
         e.preventDefault();
         var partyName = this.state.name.trim();
         var partyLocationId = this.state.locationId;
-        var partyStart = $("input[id='start']").val(); //'2019-07-03T20:00:00+03:00';
+        var partyStart = $("input[id='start']").val();
         this.state.start = partyStart;
         var partyDanceId = this.state.danceId;     
         this.props.onPartySubmit({ name: partyName, locationId: partyLocationId, start: partyStart, danceId: partyDanceId });
@@ -197,7 +180,6 @@ class PartyForm extends React.Component {
     }
 }
 
-
 class PartiesList extends React.Component {
 
     constructor(props) {
@@ -230,7 +212,6 @@ class PartiesList extends React.Component {
             xhr.setRequestHeader("Content-type", "application/json");
             xhr.onload = function () {
                 if (xhr.status == 200 || xhr.status == 201 || xhr.status == 204) {
-                    console.log("onAddParty - onload", xhr.status);
                     this.loadData();
                 }
             }.bind(this);
