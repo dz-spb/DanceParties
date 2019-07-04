@@ -230,7 +230,7 @@ class PartiesList extends React.Component {
             xhr.open("delete", url, true);
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.onload = function () {
-                if (xhr.status == 200) {
+                if (xhr.status == 204) {
                     this.loadData();
                 }
             }.bind(this);
