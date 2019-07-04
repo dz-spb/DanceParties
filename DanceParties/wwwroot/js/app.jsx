@@ -141,6 +141,10 @@ class PartyForm extends React.Component {
         var partyName = this.state.name.trim();
         var partyLocationId = this.state.locationId;
         var partyStart = $("input[id='start']").val();
+        if (isNaN(Date.parse(partyStart))) {
+            alert("Установите время начала вечеринки");
+            return;
+        }
         this.state.start = partyStart;
         var partyDanceId = this.state.danceId;     
         this.props.onPartySubmit({ name: partyName, locationId: partyLocationId, start: partyStart, danceId: partyDanceId });
@@ -174,7 +178,7 @@ class PartyForm extends React.Component {
                         value={this.state.start}
                         onChange={this.onStartChange} />
                 </p>
-                <input type="submit" value="Сохранить" />
+                <input type="submit" value="Добавить вечеринку" />
             </form>
         );
     }
@@ -238,7 +242,7 @@ class PartiesList extends React.Component {
         var remove = this.onRemoveParty;
         return <div className='party-list'>
             <PartyForm onPartySubmit={this.onAddParty} dancesUrl="/api/dances" locationsUrl="/api/locations" />
-            <h2>Танцевальные вечеринки</h2>
+            <h2>Список вечеринок</h2>
             <div>
                 {
                     this.state.partys.map(function (party) {

@@ -18,13 +18,11 @@ namespace DanceParties.Controllers
     {
         private readonly IPartyService _partyService;
         private readonly IMapper _mapper;
-        private readonly ILogger<PartyController> _logger;
 
-        public PartyController(IPartyService partyService, IMapper mapper, ILogger<PartyController> logger)
+        public PartyController(IPartyService partyService, IMapper mapper)
         {
             _partyService = partyService;
             _mapper = mapper;
-            _logger = logger;
         }
 
         [HttpGet("{id}")]
