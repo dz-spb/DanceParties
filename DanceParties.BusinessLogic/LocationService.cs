@@ -32,7 +32,7 @@ namespace DanceParties.BusinessLogic
             }
 
             return ToModel(entity);
-        }
+        }   
 
         public Task<List<Location>> GetLocations()
         {
@@ -41,7 +41,7 @@ namespace DanceParties.BusinessLogic
                 .Select(ToModel)
                 .ToList();
             return Task.FromResult(entities);
-        }
+        } 
 
         private Location ToModel(LocationEntity entity)
         {
@@ -50,8 +50,8 @@ namespace DanceParties.BusinessLogic
                 Id = entity.Id,
                 Name = entity.Name,
                 Address = entity.Address,
-                City = entity.City.Name
+                CityId = entity.City.Id
             };
-        }
+        } 
     }
 }

@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-using DanceParties.Interfaces.DTO;
+using Dto = DanceParties.Interfaces.DTO.Location;
+using BusinessModel = DanceParties.Interfaces.BusinessModels.Location;
+using CityBusinessModel = DanceParties.Interfaces.BusinessModels.City;
 using DanceParties.Interfaces.Services;
-using System.Net;
 
 namespace DanceParties.Controllers
 {
@@ -16,38 +17,40 @@ namespace DanceParties.Controllers
     public class LocationController : AbstractController
     {
         private readonly ILocationService _locationService;
+        private readonly ICityService _cityService;
         private readonly IMapper _mapper;
 
-        public LocationController(ILocationService locationService, IMapper mapper)
+        public LocationController(ILocationService locationService, ICityService cityService, IMapper mapper)
         {
             _locationService = locationService;
+            _cityService = cityService;
             _mapper = mapper;
         }
 
         [HttpGet("{id}")]
-        public async Task<Location> Get(int id)
+        public async Task<Dto> Get(int id)
         {
             var model = await _locationService.GetLocation(id);
-            var dto = _mapper.Map<Location>(model);
+            var dto = await ToDto(model);
             return dto;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Location>> GetLocations()
+        public async Task<IEnumerable<Dto>> GetLocations()
         {
             var models = await _locationService.GetLocations();
-            var dtos = models.Select(_mapper.Map<Location>);
+            var dtos = await Task.WhenAll(models.Select(m => ToDto(m)));
             return dtos;
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody]Location city)
+        public IActionResult Post([FromBody]Dto city)
         {
             return NotImplemented();
         }
        
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]Location value)
+        public IActionResult Put(int id, [FromBody]Dto value)
         {
             return NotImplemented();
         }
@@ -56,6 +59,13 @@ namespace DanceParties.Controllers
         public IActionResult Delete(int id)
         {
             return NotImplemented();
-        }     
-    }
+        }
+
+        private async Task<Dto> ToDto(BusinessModel model)
+        {
+            var dto = _mapper.Map<BusinessModel, Dto>(model);
+            var cityModel = await _cityService.GetCity(model.CityId);
+            return _mapper.Map<CityBusinessModel, Dto>(cityModel, dto);
+        }
+    }  
 }
