@@ -14,6 +14,8 @@ using AutoMapper;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using DanceParties.Logger;
+using DanceParties.Interfaces.Repositories;
+using DanceParties.Data;
 
 namespace DanceParties
 {
@@ -55,6 +57,7 @@ namespace DanceParties
 
             services.AddLogging();
 
+            services.AddScoped<IPartyRepository, PartyRepository>();
             services.AddScoped<ICityService, CityService>();
             services.AddScoped<IDanceService, DanceService>();
             services.AddScoped<ILocationService, LocationService>();

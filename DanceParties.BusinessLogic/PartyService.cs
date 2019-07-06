@@ -9,16 +9,19 @@ using DanceParties.Data.Models;
 using DanceParties.Interfaces.Services;
 using Party = DanceParties.Interfaces.BusinessModels.Party;
 using PartyEntity = DanceParties.Data.Models.Party;
+using DanceParties.Interfaces.Repositories;
 
 namespace DanceParties.BusinessLogic
 {
     public class PartyService : IPartyService
     {
         private readonly DancePartiesContext _dataContext;
+        private readonly IPartyRepository _partyRepository;
 
-        public PartyService(DancePartiesContext dataContext)
+        public PartyService(DancePartiesContext dataContext, IPartyRepository partyRepository)
         {
             _dataContext = dataContext;
+            _partyRepository = partyRepository;
         }
 
         public async Task<Party> GetParty(int id)
@@ -55,14 +58,18 @@ namespace DanceParties.BusinessLogic
             await _dataContext.SaveChangesAsync();
         }
 
-        public Task<List<Party>> GetParties()
+        public async Task<List<Party>> GetParties()
         {
-            var entities = _dataContext.Party
-                .Include(p => p.Location)
-                .Include(p => p.Dance)
-                .Select(ToModel)
-                .ToList();
-            return Task.FromResult(entities);
+            var entityQuery = _partyRepository.GetParties();
+            return await entityQuery.ToListAsync();
+
+
+            //var entities = _dataContext.Party
+            //    .Include(p => p.Location)
+            //    .Include(p => p.Dance)
+            //    .Select(ToModel)
+            //    .ToList();
+            //return Task.FromResult(entities);
         }
 
         private async Task<PartyEntity> GetEntity(int id)
