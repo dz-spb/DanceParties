@@ -26,7 +26,7 @@ namespace DanceParties.BusinessLogic
             var entity = await GetEntity(id);
             var model = ToModel(entity);
             return model;
-        }
+        }     
 
         public async Task<Party> AddParty(Party party)
         {
@@ -36,7 +36,7 @@ namespace DanceParties.BusinessLogic
             var createdEntity = await GetEntity(entity.Id);
             var model = ToModel(createdEntity);
             return model;
-        }
+        }    
 
         public async Task EditParty(int id, Party party)
         {
@@ -59,7 +59,6 @@ namespace DanceParties.BusinessLogic
         {
             var entities = _dataContext.Party
                 .Include(p => p.Location)
-                .ThenInclude(l => l.City)
                 .Include(p => p.Dance)
                 .Select(ToModel)
                 .ToList();
@@ -87,16 +86,11 @@ namespace DanceParties.BusinessLogic
             {
                 Id = entity.Id,
                 Name = entity.Name,
-                Address = entity.Location.Address,
-                City = entity.Location.City.Name,
-                CityId = entity.Location.CityId,
-                Location = entity.Location.Name,
                 LocationId = entity.LocationId,
-                Dance = entity.Dance.Name,
                 DanceId = entity.DanceId,
                 Start = entity.Start
             };
-        }
+        } 
 
         private PartyEntity ToEntity(Party model)
         {
@@ -108,6 +102,6 @@ namespace DanceParties.BusinessLogic
                 Name = model.Name,
                 Start = model.Start
             };
-        }
+        }  
     }
 }

@@ -141,6 +141,7 @@ class PartyForm extends React.Component {
         var partyName = this.state.name.trim();
         var partyLocationId = this.state.locationId;
         var partyStart = $("input[id='start']").val();
+        console.log(partyStart);
         if (isNaN(Date.parse(partyStart))) {
             alert("Установите время начала вечеринки");
             return;

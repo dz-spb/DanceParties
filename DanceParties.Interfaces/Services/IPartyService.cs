@@ -10,12 +10,12 @@ namespace DanceParties.Interfaces.Services
     {
         Task<Party> GetParty(int id);
 
+        Task<List<Party>> GetParties();
+
         Task<Party> AddParty(Party party);
 
         Task EditParty(int id, Party party);
 
         Task DeleteParty(int id);
-
-        Task<List<Party>> GetParties();
     }
 }

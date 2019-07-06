@@ -19,10 +19,27 @@ namespace DanceParties
             CreateMap<Dto.Dance, BusinessModels.Dance>();
 
             CreateMap<BusinessModels.Location, Dto.Location>();
-            CreateMap<BusinessModels.City, Dto.Location>().ForMember(d => d.City, m => m.MapFrom(s => s.Name));
+            CreateMap<BusinessModels.City, Dto.Location>()
+                .ForMember(d => d.Id, m => m.Ignore())
+                .ForMember(d => d.Name, m => m.Ignore())
+                .ForMember(d => d.City, m => m.MapFrom(s => s.Name));
             CreateMap<Dto.Location, BusinessModels.Location>();
 
             CreateMap<BusinessModels.Party, Dto.PartyResponse>();
+            CreateMap<BusinessModels.Location, Dto.PartyResponse>()
+                .ForMember(d => d.Id, m => m.Ignore())
+                .ForMember(d => d.Name, m => m.Ignore())
+                .ForMember(d => d.Location, m => m.MapFrom(s => s.Name))
+                .ForMember(d => d.Address, m => m.MapFrom(s => s.Address));
+            CreateMap<BusinessModels.City, Dto.PartyResponse>()
+                .ForMember(d => d.Id, m => m.Ignore())
+                .ForMember(d => d.Name, m => m.Ignore())
+                .ForMember(d => d.City, m => m.MapFrom(s => s.Name));
+            CreateMap<BusinessModels.Dance, Dto.PartyResponse>()
+                .ForMember(d => d.Id, m => m.Ignore())
+                .ForMember(d => d.Name, m => m.Ignore())
+                .ForMember(d => d.Dance, m => m.MapFrom(s => s.Name));
+
             CreateMap<Dto.PartyRequest, BusinessModels.Party>();
         }
     }
