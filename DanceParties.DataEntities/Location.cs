@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DanceParties.DataEntities
 {
-    public partial class Location
+    public partial class Location : IEntity
     {
         public Location()
         {

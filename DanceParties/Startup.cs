@@ -55,6 +55,9 @@ namespace DanceParties
 
             services.AddLogging();
 
+            services.AddScoped<IRepository<Dance>, DanceRepository>();
+            services.AddScoped<IRepository<City>, CityRepository>();
+            services.AddScoped<IRepository<Location>, LocationRepository>();
             services.AddScoped<IRepository<Party>, PartyRepository>();
             services.AddScoped<ICityService, CityService>();
             services.AddScoped<IDanceService, DanceService>();
