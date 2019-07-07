@@ -14,10 +14,10 @@ namespace DanceParties.BusinessLogic
 {
     public class PartyService : IPartyService
     {
-        private readonly IPartyRepository _partyRepository;
+        private readonly IRepository<PartyEntity> _partyRepository;
         private readonly IMapper _mapper;
 
-        public PartyService(IPartyRepository partyRepository, IMapper mapper)
+        public PartyService(IRepository<PartyEntity> partyRepository, IMapper mapper)
         {         
             _partyRepository = partyRepository;
             _mapper = mapper;

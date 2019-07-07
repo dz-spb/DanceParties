@@ -1,13 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using DanceParties.Interfaces.Repositories;
 using DanceParties.DataEntities;
-using DanceParties.Interfaces.BusinessModels;
-using DanceParties.Interfaces.Exceptions;
-using System;
-using System.Collections.Generic;
 
 namespace DanceParties.Repositories
 {

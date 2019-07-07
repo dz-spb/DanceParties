@@ -55,7 +55,7 @@ namespace DanceParties
 
             services.AddLogging();
 
-            services.AddScoped<IPartyRepository, PartyRepository>();
+            services.AddScoped<IRepository<Party>, PartyRepository>();
             services.AddScoped<ICityService, CityService>();
             services.AddScoped<IDanceService, DanceService>();
             services.AddScoped<ILocationService, LocationService>();
@@ -68,10 +68,6 @@ namespace DanceParties
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
             }
 
             app.UseReact(config => { });

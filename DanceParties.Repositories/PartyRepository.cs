@@ -4,13 +4,12 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DanceParties.DataEntities;
 using DanceParties.Interfaces.Repositories;
-using Party = DanceParties.Interfaces.BusinessModels.Party;
-using PartyEntity = DanceParties.DataEntities.Party;
 using DanceParties.Interfaces.Exceptions;
+using PartyEntity = DanceParties.DataEntities.Party;
 
 namespace DanceParties.Repositories
 {
-    public class PartyRepository : Repository<PartyEntity>, IPartyRepository
+    public class PartyRepository : Repository<PartyEntity>, IRepository<PartyEntity>
     {
         public PartyRepository(DancePartiesContext dataContext) : base(dataContext)
         {        
