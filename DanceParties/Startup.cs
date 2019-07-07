@@ -5,17 +5,15 @@ using Microsoft.Extensions.DependencyInjection;
 using React.AspNet;
 using JavaScriptEngineSwitcher.ChakraCore;
 using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
-using DanceParties.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using DanceParties.Interfaces.Services;
-using DanceParties.BusinessLogic;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
-using System.IO;
-using DanceParties.Logger;
 using DanceParties.Interfaces.Repositories;
-using DanceParties.Data;
+using DanceParties.Interfaces.Services;
+using DanceParties.BusinessLogic;
+using DanceParties.DataEntities;
+using DanceParties.Repositories;
 
 namespace DanceParties
 {
@@ -66,6 +64,16 @@ namespace DanceParties
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+            }
+
             app.UseReact(config => { });
             app.UseDefaultFiles();
             app.UseStaticFiles();

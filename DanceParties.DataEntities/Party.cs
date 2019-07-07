@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DanceParties.Data.Models
+namespace DanceParties.DataEntities
 {
-    public partial class Party
+    public partial class Party : IEntity
     {
         public int Id { get; set; }
         public int LocationId { get; set; }

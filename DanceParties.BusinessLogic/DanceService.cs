@@ -5,10 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DanceParties.Interfaces.Exceptions;
-using DanceParties.Data.Models;
+using DanceParties.DataEntities;
 using DanceParties.Interfaces.Services;
 using Dance = DanceParties.Interfaces.BusinessModels.Dance;
-using DanceEntity = DanceParties.Data.Models.Dance;
+using DanceEntity = DanceParties.DataEntities.Dance;
 
 namespace DanceParties.BusinessLogic
 {

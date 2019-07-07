@@ -5,11 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DanceParties.DataEntities\DanceParties.DataEntities.csproj" />
+    <ProjectReference Include="..\DanceParties.Interfaces\DanceParties.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

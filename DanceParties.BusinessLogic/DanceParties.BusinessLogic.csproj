@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DanceParties.Data\DanceParties.Data.csproj" />
+    <ProjectReference Include="..\DanceParties.DataEntities\DanceParties.DataEntities.csproj" />
     <ProjectReference Include="..\DanceParties.Interfaces\DanceParties.Interfaces.csproj" />
   </ItemGroup>
 
