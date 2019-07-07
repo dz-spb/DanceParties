@@ -11,46 +11,42 @@ using System.Collections.Generic;
 
 namespace DanceParties.Repositories
 {
-    public abstract class Repository<T, TModel> : IRepository<T> 
-        where T : class
-        where TModel : class
+    public abstract class Repository<T> where T : class
     {
         protected readonly DancePartiesContext _dbContext;
-
-        protected abstract Func<T, TModel> Mapping { get; }
 
         public Repository(DancePartiesContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public virtual IQueryable<T> FindAll()
+        protected virtual IQueryable<T> FindAll()
         {
             return _dbContext.Set<T>().AsNoTracking();
         }
 
-        public virtual IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
+        protected virtual IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
         {
             return FindAll()
                 .Where(expression);
         }
 
-        public virtual void Create(T entity)
+        protected virtual void Create(T entity)
         {
             _dbContext.Set<T>().Add(entity);
         }
 
-        public virtual void Update(T entity)
+        protected virtual void Update(T entity)
         {
             _dbContext.Set<T>().Update(entity);
         }
 
-        public virtual void Delete(T entity)
+        protected virtual void Delete(T entity)
         {
             _dbContext.Set<T>().Remove(entity);
         }
 
-        public async Task SaveAsync()
+        protected async Task SaveAsync()
         {
             await _dbContext.SaveChangesAsync();
         }

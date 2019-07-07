@@ -8,16 +8,19 @@ using DanceParties.Interfaces.Services;
 using Party = DanceParties.Interfaces.BusinessModels.Party;
 using PartyEntity = DanceParties.DataEntities.Party;
 using DanceParties.Interfaces.Repositories;
+using AutoMapper;
 
 namespace DanceParties.BusinessLogic
 {
     public class PartyService : IPartyService
     {
         private readonly IPartyRepository _partyRepository;
+        private readonly IMapper _mapper;
 
-        public PartyService(IPartyRepository partyRepository)
+        public PartyService(IPartyRepository partyRepository, IMapper mapper)
         {         
             _partyRepository = partyRepository;
+            _mapper = mapper;
         }
 
         public async Task<Party> GetParty(int id)
@@ -63,26 +66,12 @@ namespace DanceParties.BusinessLogic
 
         private Party ToModel(PartyEntity entity)
         {
-            return new Party
-            {
-                Id = entity.Id,
-                Name = entity.Name,
-                LocationId = entity.LocationId,
-                DanceId = entity.DanceId,
-                Start = entity.Start
-            };
+            return _mapper.Map<Party>(entity);
         } 
 
         private PartyEntity ToEntity(Party model)
         {
-            return new PartyEntity
-            {
-                Id = model.Id,
-                LocationId = model.LocationId,
-                DanceId = model.DanceId,
-                Name = model.Name,
-                Start = model.Start
-            };
+            return _mapper.Map<PartyEntity>(model);
         }  
     }
 }

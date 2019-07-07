@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DanceParties.DataEntities;
-using DanceParties.Repositories;
-using DanceParties.Interfaces.BusinessModels;
 using DanceParties.Interfaces.Repositories;
 using Party = DanceParties.Interfaces.BusinessModels.Party;
 using PartyEntity = DanceParties.DataEntities.Party;
@@ -15,13 +10,8 @@ using DanceParties.Interfaces.Exceptions;
 
 namespace DanceParties.Repositories
 {
-    public class PartyRepository : Repository<PartyEntity, Party>, IPartyRepository
-    {   
-        protected override Func<PartyEntity, Party> Mapping
-        {
-            get { return ToModel2; }
-        }
-
+    public class PartyRepository : Repository<PartyEntity>, IPartyRepository
+    {
         public PartyRepository(DancePartiesContext dataContext) : base(dataContext)
         {        
         }
@@ -45,7 +35,7 @@ namespace DanceParties.Repositories
             return party;
         } 
 
-        public override IQueryable<PartyEntity> FindAll()
+        protected override IQueryable<PartyEntity> FindAll()
         {
             return _dbContext.Set<PartyEntity>()
                 .AsNoTracking()
@@ -77,30 +67,5 @@ namespace DanceParties.Repositories
             var entity = await GetAsync(id);
             await DeleteAsync(entity);
         }
-
-        private Party ToModel(PartyEntity entity)
-        {
-            return new Party
-            {
-                Id = entity.Id,
-                Name = entity.Name,
-                LocationId = entity.LocationId,
-                DanceId = entity.DanceId,
-                Start = entity.Start
-            };
-        }
-
-        private static Party ToModel2(PartyEntity entity)
-        {
-            return new Party
-            {
-                Id = entity.Id,
-                Name = entity.Name,
-                LocationId = entity.LocationId,
-                DanceId = entity.DanceId,
-                Start = entity.Start
-            };
-        }
-
     }
 }

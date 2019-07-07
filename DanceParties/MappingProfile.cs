@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Entities = DanceParties.DataEntities;
 using BusinessModels = DanceParties.Interfaces.BusinessModels;
 using Dto = DanceParties.Interfaces.DTO;
 
@@ -41,6 +42,9 @@ namespace DanceParties
                 .ForMember(d => d.Dance, m => m.MapFrom(s => s.Name));
 
             CreateMap<Dto.PartyRequest, BusinessModels.Party>();
+
+            CreateMap<BusinessModels.Party, Entities.Party>();
+            CreateMap<Entities.Party, BusinessModels.Party>();
         }
     }
 }
