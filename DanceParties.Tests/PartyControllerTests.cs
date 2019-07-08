@@ -33,11 +33,18 @@ namespace DanceParties.Tests
 
             IMapper mapper = mappingConfig.CreateMapper();
 
-            var partyService = new Mock<IPartyService>();
-            partyService.Setup(ps => ps.GetParties()).Returns(GetPartiesFromService());
-    
+            var partyService = new Mock<IService<Party>>();
+            partyService.Setup(ps => ps.GetAll()).Returns(GetPartiesFromService());
+
+            var locationService = new Mock<IService<Interfaces.BusinessModels.Location>>();
+
+            var cityService = new Mock<IService<Interfaces.BusinessModels.City>>();
+
+            var danceService = new Mock<IService<Interfaces.BusinessModels.Dance>>();
+
             // Arrange
-            var partyController = new PartyController(partyService.Object, mapper);
+            var partyController = new PartyController(partyService.Object, locationService.Object, 
+                cityService.Object, danceService.Object, mapper);
 
             // Act
             IEnumerable<PartyResponse> response = partyController.GetParties().Result;
@@ -122,14 +129,9 @@ namespace DanceParties.Tests
             return new Party
             {
                 Id = 1,
-                Dance = "Сальса",
                 DanceId = 1,
                 Name = "вечеринка 1",
-                Address = "Невский 71",
-                Location = "Tropikana",
                 LocationId = 1,
-                City = "Санкт-Петербург",
-                CityId = 1,
                 Start = new DateTimeOffset(2019, 07, 05, 20, 00, 00, _mskTimezoneOffset)
             };
         }
@@ -139,14 +141,9 @@ namespace DanceParties.Tests
             return new Party
             {
                 Id = 2,
-                Dance = "Бачата",
                 DanceId = 2,
                 Name = "вечеринка 2",
-                Address = "Херсонская 12-14",
-                Location = "AnyDay",
                 LocationId = 2,
-                City = "Санкт-Петербург",
-                CityId = 1,
                 Start = new DateTimeOffset(2019, 07, 06, 20, 30, 00, _mskTimezoneOffset)
             };
         }
@@ -156,14 +153,9 @@ namespace DanceParties.Tests
             return new Party
             {
                 Id = 3,
-                Dance = "Хастл",
                 DanceId = 3,
                 Name = "вечеринка 3",
-                Address = "Стрелка В.О.",
-                Location = "Ростральные колонны, зимняя площадка",
                 LocationId = 3,
-                City = "Санкт-Петербург",
-                CityId = 1,
                 Start = new DateTimeOffset(2019, 07, 06, 21, 00, 00, _mskTimezoneOffset)
             };
         }

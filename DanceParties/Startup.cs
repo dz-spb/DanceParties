@@ -5,15 +5,16 @@ using Microsoft.Extensions.DependencyInjection;
 using React.AspNet;
 using JavaScriptEngineSwitcher.ChakraCore;
 using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
-using DanceParties.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using DanceParties.Interfaces.Services;
-using DanceParties.BusinessLogic;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
-using System.IO;
-using DanceParties.Logger;
+using DanceParties.Interfaces.Repositories;
+using DanceParties.Interfaces.Services;
+using DanceParties.BusinessLogic;
+using Models = DanceParties.Interfaces.BusinessModels;
+using Entities = DanceParties.DataEntities;
+using DanceParties.Repositories;
 
 namespace DanceParties
 {
@@ -41,7 +42,7 @@ namespace DanceParties
             });
 
             string connection = Configuration.GetConnectionString("MainDatabase");
-            services.AddDbContext<DancePartiesContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<Entities.DancePartiesContext>(options => options.UseSqlServer(connection));
 
             var mappingConfig = new MapperConfiguration(mc =>
             {
@@ -55,14 +56,24 @@ namespace DanceParties
 
             services.AddLogging();
 
-            services.AddScoped<ICityService, CityService>();
-            services.AddScoped<IDanceService, DanceService>();
-            services.AddScoped<ILocationService, LocationService>();
-            services.AddScoped<IPartyService, PartyService>();
+            services.AddScoped<IRepository<Entities.Dance>, DanceRepository>();
+            services.AddScoped<IRepository<Entities.City>, CityRepository>();
+            services.AddScoped<IRepository<Entities.Location>, LocationRepository>();
+            services.AddScoped<IRepository<Entities.Party>, PartyRepository>();
+            services.AddScoped<IService<Models.Dance>, DanceService>();
+            services.AddScoped<IService<Models.City>, CityService>();
+            services.AddScoped<IService<Models.Location>, LocationService>();
+            services.AddScoped<IService<Models.Party>, PartyService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
+            }
+
             app.UseReact(config => { });
             app.UseDefaultFiles();
             app.UseStaticFiles();

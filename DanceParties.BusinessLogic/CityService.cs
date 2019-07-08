@@ -5,46 +5,27 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DanceParties.Interfaces.Exceptions;
-using DanceParties.Data.Models;
 using DanceParties.Interfaces.Services;
 using City = DanceParties.Interfaces.BusinessModels.City;
-using CityEntity = DanceParties.Data.Models.City;
+using CityEntity = DanceParties.DataEntities.City;
+using DanceParties.DataEntities;
+using AutoMapper;
+using DanceParties.Interfaces.Repositories;
 
 namespace DanceParties.BusinessLogic
 {
-    public class CityService : ICityService
+    public class CityService : Service<CityEntity, City>, IService<City>
     {
-        private readonly DancePartiesContext _dataContext;
-
-        public CityService(DancePartiesContext dataContext)
+        public CityService(IRepository<CityEntity> cityRepository, IMapper mapper)
+               : base(cityRepository, mapper)
         {
-            _dataContext = dataContext;
         }
 
-        public async Task<City> GetCity(int id)
+        public override async Task Edit(int id, City location)
         {
-            var entity = await _dataContext.City.SingleOrDefaultAsync(c => c.Id == id);
-            if (entity == null)
-            {
-                throw new NotExistsException("Unknown city id");
-            }
-
-            return ToModel(entity);
-        }
-
-        public Task<List<City>> GetCities()
-        {
-            var entities = _dataContext.City.Select(ToModel).ToList();
-            return Task.FromResult(entities);
-        }
-
-        private City ToModel(CityEntity entity)
-        {
-            return new City
-            {
-                Id = entity.Id,
-                Name = entity.Name
-            };
+            var entity = await GetEntity(id);
+            entity.Name = location.Name;       
+            await _repository.UpdateAsync(entity);
         }
     }
 }

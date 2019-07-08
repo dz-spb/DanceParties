@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace DanceParties.Data.Models
+namespace DanceParties.DataEntities
 {
     public partial class DancePartiesContext : DbContext
     {

@@ -26,6 +26,7 @@
     <ProjectReference Include="..\DanceParties.BusinessLogic\DanceParties.BusinessLogic.csproj" />
     <ProjectReference Include="..\DanceParties.Interfaces\DanceParties.Interfaces.csproj" />
     <ProjectReference Include="..\DanceParties.Logger\DanceParties.Logger.csproj" />
+    <ProjectReference Include="..\DanceParties.Repositories\DanceParties.Repositories.csproj" />
   </ItemGroup>
 
 </Project>
