@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using DanceParties.Interfaces.DTO;
 using DanceParties.Interfaces.Services;
+using BusinessModel = DanceParties.Interfaces.BusinessModels.Dance;
 
 namespace DanceParties.Controllers
 {
@@ -14,10 +15,10 @@ namespace DanceParties.Controllers
     [ApiController]
     public class DanceController : AbstractController
     {
-        private readonly IDanceService _danceService;
+        private readonly IService<BusinessModel> _danceService;
         private readonly IMapper _mapper;
 
-        public DanceController(IDanceService danceService, IMapper mapper)
+        public DanceController(IService<BusinessModel> danceService, IMapper mapper)
         {
             _danceService = danceService;
             _mapper = mapper;
@@ -26,7 +27,7 @@ namespace DanceParties.Controllers
         [HttpGet("{id}")]
         public async Task<Dance> Get(int id)
         {
-            var model = await _danceService.GetDance(id);
+            var model = await _danceService.Get(id);
             var dto = _mapper.Map<Dance>(model);
             return dto;
         }
@@ -34,7 +35,7 @@ namespace DanceParties.Controllers
         [HttpGet]
         public async Task<IEnumerable<Dance>> GetDances()
         {
-            var models = await _danceService.GetDances();
+            var models = await _danceService.GetAll();
             var dtos = models.Select(_mapper.Map<Dance>);
             return dtos;
         }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using DanceParties.Interfaces.DTO;
 using DanceParties.Interfaces.Services;
+using BusinessModel = DanceParties.Interfaces.BusinessModels.City;
 
 namespace DanceParties.Controllers
 {
@@ -14,10 +15,10 @@ namespace DanceParties.Controllers
     [ApiController]
     public class CityController : AbstractController
     {
-        private readonly ICityService _cityService;
+        private readonly IService<BusinessModel> _cityService;
         private readonly IMapper _mapper;
 
-        public CityController(ICityService cityService, IMapper mapper)
+        public CityController(IService<BusinessModel> cityService, IMapper mapper)
         {
             _cityService = cityService;
             _mapper = mapper;
@@ -26,7 +27,7 @@ namespace DanceParties.Controllers
         [HttpGet("{id}")]
         public async Task<City> Get(int id)
         {
-            var model = await _cityService.GetCity(id);
+            var model = await _cityService.Get(id);
             var dto = _mapper.Map<City>(model);
             return dto;
         }
@@ -34,7 +35,7 @@ namespace DanceParties.Controllers
         [HttpGet]
         public async Task<IEnumerable<City>> GetCities()
         {
-            var models = await _cityService.GetCities();
+            var models = await _cityService.GetAll();
             var dtos = models.Select(_mapper.Map<City>);
             return dtos;
         }

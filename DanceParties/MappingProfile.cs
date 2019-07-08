@@ -43,6 +43,15 @@ namespace DanceParties
 
             CreateMap<Dto.PartyRequest, BusinessModels.Party>();
 
+            CreateMap<BusinessModels.Dance, Entities.Dance>();
+            CreateMap<Entities.Dance, BusinessModels.Dance>();
+
+            CreateMap<BusinessModels.City, Entities.City>();
+            CreateMap<Entities.City, BusinessModels.City>();
+
+            CreateMap<BusinessModels.Location, Entities.Location>();
+            CreateMap<Entities.Location, BusinessModels.Location>();
+
             CreateMap<BusinessModels.Party, Entities.Party>();
             CreateMap<Entities.Party, BusinessModels.Party>();
         }

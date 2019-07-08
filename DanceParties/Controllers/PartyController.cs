@@ -21,14 +21,14 @@ namespace DanceParties.Controllers
     [ApiController]
     public class PartyController : AbstractController
     {
-        private readonly IPartyService _partyService;
-        private readonly ILocationService _locationService;
-        private readonly ICityService _cityService;
-        private readonly IDanceService _danceService;
+        private readonly IService<BusinessModel> _partyService;
+        private readonly IService<LocationBusinessModel> _locationService;
+        private readonly IService<CityBusinessModel> _cityService;
+        private readonly IService<DanceBusinessModel> _danceService;
         private readonly IMapper _mapper;
 
-        public PartyController(IPartyService partyService, ILocationService locationService,
-            ICityService cityService, IDanceService danceService, IMapper mapper)
+        public PartyController(IService<BusinessModel> partyService, IService<LocationBusinessModel> locationService,
+            IService<CityBusinessModel> cityService, IService<DanceBusinessModel> danceService, IMapper mapper)
         {
             _partyService = partyService;
             _locationService = locationService;
@@ -40,7 +40,7 @@ namespace DanceParties.Controllers
         [HttpGet("{id}")]
         public async Task<PartyResponse> Get(int id)
         {
-            var model = await _partyService.GetParty(id);
+            var model = await _partyService.Get(id);
             var dto = await ToDto(model);
             return dto;
         }
@@ -48,7 +48,7 @@ namespace DanceParties.Controllers
         [HttpGet]
         public async Task<IEnumerable<PartyResponse>> GetParties()
         {
-            var models = await _partyService.GetParties();
+            var models = await _partyService.GetAll();
             var dtos = await Task.WhenAll(models.Select(m => ToDto(m)));
             return dtos;
         }
@@ -63,7 +63,7 @@ namespace DanceParties.Controllers
 
             var model = _mapper.Map<Party>(dto);
 
-            var createdModel = await _partyService.AddParty(model);
+            var createdModel = await _partyService.Add(model);
             return CreatedAtAction(
                   "Get",
                   new { Id = createdModel.Id },
@@ -79,25 +79,25 @@ namespace DanceParties.Controllers
             }
 
             var model = _mapper.Map<Party>(dto);
-            await _partyService.EditParty(model.Id, model);
+            await _partyService.Edit(model.Id, model);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _partyService.DeleteParty(id);
+            await _partyService.Delete(id);
             return NoContent();
         }
 
         private async Task<ResponseDto> ToDto(BusinessModel model)
         {
             var dto = _mapper.Map<BusinessModel, ResponseDto>(model);
-            var locationModel = await _locationService.GetLocation(model.LocationId);
+            var locationModel = await _locationService.Get(model.LocationId);
             dto = _mapper.Map<LocationBusinessModel, ResponseDto>(locationModel, dto);
-            var cityModel = await _cityService.GetCity(locationModel.CityId);
+            var cityModel = await _cityService.Get(locationModel.CityId);
             dto = _mapper.Map<CityBusinessModel, ResponseDto>(cityModel, dto);
-            var danceModel = await _danceService.GetDance(model.DanceId);
+            var danceModel = await _danceService.Get(model.DanceId);
             return _mapper.Map<DanceBusinessModel, ResponseDto>(danceModel, dto);
         }
     }

@@ -16,11 +16,11 @@ namespace DanceParties.Controllers
     [ApiController]
     public class LocationController : AbstractController
     {
-        private readonly ILocationService _locationService;
-        private readonly ICityService _cityService;
+        private readonly IService<BusinessModel> _locationService;
+        private readonly IService<CityBusinessModel> _cityService;
         private readonly IMapper _mapper;
 
-        public LocationController(ILocationService locationService, ICityService cityService, IMapper mapper)
+        public LocationController(IService<BusinessModel> locationService, IService<CityBusinessModel> cityService, IMapper mapper)
         {
             _locationService = locationService;
             _cityService = cityService;
@@ -30,7 +30,7 @@ namespace DanceParties.Controllers
         [HttpGet("{id}")]
         public async Task<Dto> Get(int id)
         {
-            var model = await _locationService.GetLocation(id);
+            var model = await _locationService.Get(id);
             var dto = await ToDto(model);
             return dto;
         }
@@ -38,7 +38,7 @@ namespace DanceParties.Controllers
         [HttpGet]
         public async Task<IEnumerable<Dto>> GetLocations()
         {
-            var models = await _locationService.GetLocations();
+            var models = await _locationService.GetAll();
             var dtos = await Task.WhenAll(models.Select(m => ToDto(m)));
             return dtos;
         }
@@ -64,7 +64,7 @@ namespace DanceParties.Controllers
         private async Task<Dto> ToDto(BusinessModel model)
         {
             var dto = _mapper.Map<BusinessModel, Dto>(model);
-            var cityModel = await _cityService.GetCity(model.CityId);
+            var cityModel = await _cityService.Get(model.CityId);
             return _mapper.Map<CityBusinessModel, Dto>(cityModel, dto);
         }
     }  

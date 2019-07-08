@@ -33,14 +33,14 @@ namespace DanceParties.Tests
 
             IMapper mapper = mappingConfig.CreateMapper();
 
-            var partyService = new Mock<IPartyService>();
-            partyService.Setup(ps => ps.GetParties()).Returns(GetPartiesFromService());
+            var partyService = new Mock<IService<Party>>();
+            partyService.Setup(ps => ps.GetAll()).Returns(GetPartiesFromService());
 
-            var locationService = new Mock<ILocationService>();
+            var locationService = new Mock<IService<Interfaces.BusinessModels.Location>>();
 
-            var cityService = new Mock<ICityService>();
+            var cityService = new Mock<IService<Interfaces.BusinessModels.City>>();
 
-            var danceService = new Mock<IDanceService>();
+            var danceService = new Mock<IService<Interfaces.BusinessModels.Dance>>();
 
             // Arrange
             var partyController = new PartyController(partyService.Object, locationService.Object, 

@@ -9,49 +9,26 @@ using DanceParties.DataEntities;
 using DanceParties.Interfaces.Services;
 using Location = DanceParties.Interfaces.BusinessModels.Location;
 using LocationEntity = DanceParties.DataEntities.Location;
+using DanceParties.Interfaces.Repositories;
+using AutoMapper;
+using DanceParties.Interfaces.BusinessModels;
 
 namespace DanceParties.BusinessLogic
 {
-    public class LocationService : ILocationService
-    {
-        private readonly DancePartiesContext _dataContext;
-
-        public LocationService(DancePartiesContext dataContext)
+    public class LocationService : Service<LocationEntity, Location>, IService<Location>
+    {    
+        public LocationService(IRepository<LocationEntity> locationRepository, IMapper mapper)
+             : base(locationRepository, mapper)
         {
-            _dataContext = dataContext;
+        }  
+
+        public override async Task Edit(int id, Location location)
+        {
+            var entity = await GetEntity(id);
+            entity.Name = location.Name;
+            entity.Address = location.Address;
+            entity.CityId = location.CityId;
+            await _repository.UpdateAsync(entity);
         }
-
-        public async Task<Location> GetLocation(int id)
-        {
-            var entity = await _dataContext.Location
-                .Include(l => l.City)
-                .SingleOrDefaultAsync(c => c.Id == id);
-            if (entity == null)
-            {
-                throw new NotExistsException("Unknown dance id");
-            }
-
-            return ToModel(entity);
-        }   
-
-        public Task<List<Location>> GetLocations()
-        {
-            var entities = _dataContext.Location
-                .Include(l => l.City)
-                .Select(ToModel)
-                .ToList();
-            return Task.FromResult(entities);
-        } 
-
-        private Location ToModel(LocationEntity entity)
-        {
-            return new Location
-            {
-                Id = entity.Id,
-                Name = entity.Name,
-                Address = entity.Address,
-                CityId = entity.City.Id
-            };
-        } 
     }
 }

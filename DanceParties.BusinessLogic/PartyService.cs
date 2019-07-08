@@ -9,69 +9,25 @@ using Party = DanceParties.Interfaces.BusinessModels.Party;
 using PartyEntity = DanceParties.DataEntities.Party;
 using DanceParties.Interfaces.Repositories;
 using AutoMapper;
+using DanceParties.Interfaces.BusinessModels;
 
 namespace DanceParties.BusinessLogic
 {
-    public class PartyService : IPartyService
+    public class PartyService : Service<PartyEntity, Party>, IService<Party>
     {
-        private readonly IRepository<PartyEntity> _partyRepository;
-        private readonly IMapper _mapper;
-
-        public PartyService(IRepository<PartyEntity> partyRepository, IMapper mapper)
+        public PartyService(IRepository<PartyEntity> partyRepository, IMapper mapper) 
+            : base(partyRepository, mapper)
         {         
-            _partyRepository = partyRepository;
-            _mapper = mapper;
         }
 
-        public async Task<Party> GetParty(int id)
-        {
-            var entity = await GetEntity(id);
-            var model = ToModel(entity);
-            return model;
-        }
-
-        public async Task<List<Party>> GetParties()
-        {
-            var entities = await _partyRepository.GetAllAsync();
-            return entities.Select(ToModel).ToList();
-        }
-
-        public async Task<Party> AddParty(Party party)
-        {
-            var entity = ToEntity(party);
-            await _partyRepository.CreateAsync(entity);
-            var model = await GetParty(entity.Id);
-            return model;
-        }    
-
-        public async Task EditParty(int id, Party party)
+        public override async Task Edit(int id, Party party)
         {
             var entity = await GetEntity(id);
             entity.LocationId = party.LocationId;
             entity.DanceId = party.DanceId;
             entity.Name = party.Name;
             entity.Start = party.Start;
-            await _partyRepository.UpdateAsync(entity);
-        }
-
-        public async Task DeleteParty(int id)
-        {
-            await _partyRepository.DeleteAsync(id);
-        }
-
-        private async Task<PartyEntity> GetEntity(int id)
-        {
-            return await _partyRepository.GetAsync(id);
-        }
-
-        private Party ToModel(PartyEntity entity)
-        {
-            return _mapper.Map<Party>(entity);
-        } 
-
-        private PartyEntity ToEntity(Party model)
-        {
-            return _mapper.Map<PartyEntity>(model);
-        }  
+            await _repository.UpdateAsync(entity);
+        }      
     }
 }

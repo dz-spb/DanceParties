@@ -9,42 +9,23 @@ using DanceParties.DataEntities;
 using DanceParties.Interfaces.Services;
 using Dance = DanceParties.Interfaces.BusinessModels.Dance;
 using DanceEntity = DanceParties.DataEntities.Dance;
+using DanceParties.Interfaces.Repositories;
+using AutoMapper;
 
 namespace DanceParties.BusinessLogic
 {
-    public class DanceService : IDanceService
+    public class DanceService : Service<DanceEntity, Dance>, IService<Dance>
     {
-        private readonly DancePartiesContext _dataContext;
-
-        public DanceService(DancePartiesContext dataContext)
+        public DanceService(IRepository<DanceEntity> danceRepository, IMapper mapper)
+            : base(danceRepository, mapper)
         {
-            _dataContext = dataContext;
         }
-
-        public async Task<Dance> GetDance(int id)
+   
+        public override async Task Edit(int id, Dance dance)
         {
-            var entity = await _dataContext.Dance.SingleOrDefaultAsync(c => c.Id == id);
-            if (entity == null)
-            {
-                throw new NotExistsException("Unknown dance id");
-            }
-
-            return ToModel(entity);
-        }
-
-        public Task<List<Dance>> GetDances()
-        {
-            var entities = _dataContext.Dance.Select(ToModel).ToList();
-            return Task.FromResult(entities);
-        }
-
-        private Dance ToModel(DanceEntity entity)
-        {
-            return new Dance
-            {
-                Id = entity.Id,
-                Name = entity.Name
-            };
+            var entity = await GetEntity(id);
+            entity.Name = dance.Name;
+            await _repository.UpdateAsync(entity);
         }
     }
 }
