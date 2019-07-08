@@ -6,7 +6,7 @@ using LocationEntity = DanceParties.DataEntities.Location;
 
 namespace DanceParties.Repositories
 {
-    public class LocationRepository : Repository<LocationEntity>, IRepository<LocationEntity>
+    public class LocationRepository : Repository<LocationEntity>
     {
         public LocationRepository(DancePartiesContext dataContext) : base(dataContext)
         {        

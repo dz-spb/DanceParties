@@ -9,7 +9,7 @@ using PartyEntity = DanceParties.DataEntities.Party;
 
 namespace DanceParties.Repositories
 {
-    public class PartyRepository : Repository<PartyEntity>, IRepository<PartyEntity>
+    public class PartyRepository : Repository<PartyEntity>
     {
         public PartyRepository(DancePartiesContext dataContext) : base(dataContext)
         {        

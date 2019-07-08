@@ -15,7 +15,7 @@ using DanceParties.Interfaces.BusinessModels;
 
 namespace DanceParties.BusinessLogic
 {
-    public class LocationService : Service<LocationEntity, Location>, IService<Location>
+    public class LocationService : Service<LocationEntity, Location>
     {    
         public LocationService(IRepository<LocationEntity> locationRepository, IMapper mapper)
              : base(locationRepository, mapper)

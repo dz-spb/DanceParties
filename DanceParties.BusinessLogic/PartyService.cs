@@ -13,7 +13,7 @@ using DanceParties.Interfaces.BusinessModels;
 
 namespace DanceParties.BusinessLogic
 {
-    public class PartyService : Service<PartyEntity, Party>, IService<Party>
+    public class PartyService : Service<PartyEntity, Party>
     {
         public PartyService(IRepository<PartyEntity> partyRepository, IMapper mapper) 
             : base(partyRepository, mapper)
