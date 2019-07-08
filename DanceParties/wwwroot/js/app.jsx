@@ -16,12 +16,12 @@
 
         return <div className='party'>
             <p><b>{this.state.data.name}</b></p>
-            <p>танец: <b>{this.state.data.dance}</b></p>
-            <p>место: {this.state.data.location}</p>
-            <p>адрес: {this.state.data.address}</p>
-            <p>город: {this.state.data.city}</p>
-            <p>начало: {startString}</p>
-            <p><button onClick={this.onClick}>Удалить</button></p>
+            <p>dance: <b>{this.state.data.dance}</b></p>
+            <p>location: {this.state.data.location}</p>
+            <p>dance: {this.state.data.address}</p>
+            <p>city: {this.state.data.city}</p>
+            <p>start: {startString}</p>
+            <p><button onClick={this.onClick}>Remove</button></p>
         </div>;
     }
 }
@@ -143,7 +143,7 @@ class PartyForm extends React.Component {
         var partyStart = $("input[id='start']").val();
         console.log(partyStart);
         if (isNaN(Date.parse(partyStart))) {
-            alert("Установите время начала вечеринки");
+            alert("Set party start time");
             return;
         }
         this.state.start = partyStart;
@@ -158,7 +158,7 @@ class PartyForm extends React.Component {
                 <p>
                     <input type="text"
                         id="name"
-                        placeholder="Название вечеринки (необязательно)"
+                        placeholder="Party name (not mandatory)"
                         value={this.state.name}
                         onChange={this.onNameChange} />
                 </p>
@@ -175,11 +175,11 @@ class PartyForm extends React.Component {
                 <p>
                     <input type="text"
                         id="start" 
-                        placeholder="Выберите время"
+                        placeholder="Choose time"
                         value={this.state.start}
                         onChange={this.onStartChange} />
                 </p>
-                <input type="submit" value="Добавить вечеринку" />
+                <input type="submit" value="Add party" />
             </form>
         );
     }
@@ -243,7 +243,7 @@ class PartiesList extends React.Component {
         var remove = this.onRemoveParty;
         return <div className='party-list'>
             <PartyForm onPartySubmit={this.onAddParty} dancesUrl="/api/dances" locationsUrl="/api/locations" />
-            <h2>Список вечеринок</h2>
+            <h2>Party  list</h2>
             <div>
                 {
                     this.state.partys.map(function (party) {

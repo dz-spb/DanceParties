@@ -4,9 +4,9 @@ GO
 SET IDENTITY_INSERT [dbo].[City] ON
 
 INSERT INTO [dbo].[City] ([Id], [Name]) VALUES
-(1, 'Санкт-Петебург'),
-(2, 'Москва'),
-(3, 'Минск')
+(1, 'Saint Petersburg'),
+(2, 'Moscow'),
+(3, 'Minsk')
 
 SET IDENTITY_INSERT [dbo].[City] OFF
 
@@ -15,9 +15,9 @@ GO
 SET IDENTITY_INSERT [dbo].[Dance] ON
 
 INSERT INTO [dbo].[Dance] ([Id], [Name]) VALUES
-(1, 'Сальса'),
-(2, 'Бачата'),
-(3, 'Хастл')
+(1, 'Salsa'),
+(2, 'Bachata'),
+(3, 'Hustle')
 
 SET IDENTITY_INSERT [dbo].[Dance] OFF
 
@@ -26,16 +26,16 @@ GO
 SET IDENTITY_INSERT [dbo].[Location] ON
 
 INSERT INTO [dbo].[Location] ([Id], [CityId], [Name], [Address]) VALUES
-(1, 1, 'Tropikana-Atrium', 'Невский 71'),
-(2, 1, 'AnyDay', 'Херсонская 12-14'),
-(3, 1, 'Ростральные колонны, зимняя площадка', 'Стрелка В.О.'),
-(4, 3, 'Гудвин', NULL),
-(5, 3, 'Куба', NULL),
-(6, 3, 'Дофамин', NULL),
+(1, 1, 'Tropikana-Atrium', '71 Nevsky ave'),
+(2, 1, 'AnyDay', '12-14 Khersonskaya str'),
+(3, 1, 'Rostral columns, winter site', 'Strelka V.O.'),
+(4, 3, 'Goodwin', NULL),
+(5, 3, 'Cuba', NULL),
+(6, 3, 'Dopamine', NULL),
 (7, 2, 'Tiki-Bar', NULL),
 (8, 2, 'Liberty Bar', NULL),
-(9, 2, 'Хастл ОпенЭир на Набережной', 'Пушкинская набережная'),
-(10, 1, 'Ростральные колонны, байкерская площадка', 'Стрелка В.О.')
+(9, 2, 'Hustle open air on quay', 'Pushkinskaya quay'),
+(10, 1, 'Rostral columns, biker site', 'Strelka V.O.')
 
 SET IDENTITY_INSERT [dbo].[Location] OFF
 
