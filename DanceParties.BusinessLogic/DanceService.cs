@@ -14,7 +14,7 @@ using AutoMapper;
 
 namespace DanceParties.BusinessLogic
 {
-    public class DanceService : Service<DanceEntity, Dance>, IService<Dance>
+    public class DanceService : Service<DanceEntity, Dance>
     {
         public DanceService(IRepository<DanceEntity> danceRepository, IMapper mapper)
             : base(danceRepository, mapper)

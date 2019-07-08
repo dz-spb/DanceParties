@@ -14,7 +14,7 @@ using DanceParties.Interfaces.Repositories;
 
 namespace DanceParties.BusinessLogic
 {
-    public class CityService : Service<CityEntity, City>, IService<City>
+    public class CityService : Service<CityEntity, City>
     {
         public CityService(IRepository<CityEntity> cityRepository, IMapper mapper)
                : base(cityRepository, mapper)

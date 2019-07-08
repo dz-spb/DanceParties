@@ -5,7 +5,7 @@ using DanceParties.Interfaces.Repositories;
 
 namespace DanceParties.Repositories
 {
-    public class CityRepository : Repository<City>, IRepository<City>
+    public class CityRepository : Repository<City>
     {
         public CityRepository(DancePartiesContext dataContext) : base(dataContext)
         {        
