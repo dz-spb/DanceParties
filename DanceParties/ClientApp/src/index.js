@@ -1,4 +1,10 @@
-﻿class Party extends React.Component {
+import 'bootstrap/dist/css/bootstrap.css';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+class Party extends React.Component {
 
     constructor(props) {
         super(props);
@@ -10,7 +16,7 @@
         this.props.onRemove(this.state.data);
     }
 
-    render() {    
+    render() {
         var startDate = new Date(this.state.data.start);
         var startString = startDate.toString();
 
@@ -18,7 +24,7 @@
             <p><b>{this.state.data.name}</b></p>
             <p>dance: <b>{this.state.data.dance}</b></p>
             <p>location: {this.state.data.location}</p>
-            <p>dance: {this.state.data.address}</p>
+            <p>address: {this.state.data.address}</p>
             <p>city: {this.state.data.city}</p>
             <p>start: {startString}</p>
             <p><button onClick={this.onClick}>Remove</button></p>
@@ -30,13 +36,26 @@ class PartyForm extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { name: "", start: "", danceId: -1, locationId: -1, dances: [], locations: [] };
+        this.state = {
+            name: "",
+            danceId: -1,
+            locationId: -1,
+            dances: [],
+            locations: [],
+            startDate: new Date()
+        };
+        this.handleChange = this.handleChange.bind(this);
 
         this.onSubmit = this.onSubmit.bind(this);
         this.onNameChange = this.onNameChange.bind(this);
         this.onDanceIdChange = this.onDanceIdChange.bind(this);
         this.onLocationIdChange = this.onLocationIdChange.bind(this);
-        this.onStartChange = this.onStartChange.bind(this);
+    }
+
+    handleChange(date) {
+        this.setState({
+            startDate: date
+        });
     }
 
     createDanceItems() {
@@ -45,7 +64,7 @@ class PartyForm extends React.Component {
             items.push(<option value={d.id} key={d.id}>{d.name}</option>);
         });
         return items;
-    }  
+    }
 
     createLocationItems() {
         let items = [];
@@ -97,33 +116,18 @@ class PartyForm extends React.Component {
             this.setState,
             this.buildLocationState,
             this
-        );  
+        );
     }
 
-    componentDidMount() {
-        var nameInput = $('input[id="name"]');
-        var additionalFillerCount = 5;
-        var placeholderLength = nameInput.attr('placeholder').length + additionalFillerCount;
-        nameInput.attr('size', placeholderLength);
-        $('input[id="start"]').daterangepicker({
-            alwaysShowCalendars: true,
-            autoUpdateInput: true,
-            singleDatePicker: true,
-            timePicker: true,
-            timePicker24Hour: true,
-            timePickerIncrement: 1,
-            locale: {
-                format: 'YYYY MMMM DD hh:mm'
-            }
-        });
+    componentDidMount() {  
         this.loadData();
-    } 
+    }
 
     onNameChange(e) {
         this.setState({ name: e.target.value });
-    }  
+    }
 
-    onDanceIdChange(e) {     
+    onDanceIdChange(e) {
         this.setState({ danceId: e.target.value });
     }
 
@@ -131,25 +135,19 @@ class PartyForm extends React.Component {
         this.setState({ locationId: e.target.value });
     }
 
-    onStartChange(e) {
-        console.log("onStartChange ", e.target.value);
-        this.setState({ start: e.target.value });
-    }
-
     onSubmit(e) {
         e.preventDefault();
         var partyName = this.state.name.trim();
-        var partyLocationId = this.state.locationId;
-        var partyStart = $("input[id='start']").val();
-        console.log(partyStart);
-        if (isNaN(Date.parse(partyStart))) {
-            alert("Set party start time");
-            return;
-        }
-        this.state.start = partyStart;
-        var partyDanceId = this.state.danceId;     
+        var partyLocationId = this.state.locationId;    
+        var partyStart = this.state.startDate.toLocaleString();
+        var partyDanceId = this.state.danceId;
         this.props.onPartySubmit({ name: partyName, locationId: partyLocationId, start: partyStart, danceId: partyDanceId });
-        this.setState({ name: "", locationId: -1, start: "", danceId: -1});
+        this.setState({
+            name: "",
+            locationId: -1,
+            danceId: -1,
+            startDate: new Date()
+        });
     }
 
     render() {
@@ -173,11 +171,12 @@ class PartyForm extends React.Component {
                     </select>
                 </p>
                 <p>
-                    <input type="text"
-                        id="start" 
-                        placeholder="Choose time"
-                        value={this.state.start}
-                        onChange={this.onStartChange} />
+                    <DatePicker
+                        selected={this.state.startDate}
+                        onChange={this.handleChange}
+                        showTimeSelect
+                        dateFormat="Pp"
+                    />
                 </p>
                 <input type="submit" value="Add party" />
             </form>
@@ -205,7 +204,7 @@ class PartiesList extends React.Component {
         xhr.send();
     }
 
-    componentDidMount() {  
+    componentDidMount() {
         this.loadData();
     }
 
@@ -223,7 +222,7 @@ class PartiesList extends React.Component {
             xhr.send(data);
         }
     }
-    
+
     onRemoveParty(party) {
         if (party) {
             var url = this.props.apiUrl + "/" + party.id;
@@ -254,6 +253,7 @@ class PartiesList extends React.Component {
         </div>;
     }
 }
+
 
 ReactDOM.render(
     <PartiesList apiUrl="/api/parties" />,
