@@ -4,5 +4,6 @@ This is an ASP.NET Core application sample: simple dance party keeper with add/r
 
 Technologies: ASP.NET Core, Entity Framework, xUnit, React (my first experience with this framework:) )
 
+Deployed to Microsoft Azure (as App Service): http://danceparties.azurewebsites.net/
 
 
