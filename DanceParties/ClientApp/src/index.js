@@ -139,7 +139,8 @@ class PartyForm extends React.Component {
         e.preventDefault();
         var partyName = this.state.name.trim();
         var partyLocationId = this.state.locationId;    
-        var partyStart = this.state.startDate.toLocaleString();
+        var partyStart = this.state.startDate.toISOString();
+        console.log("party start", partyStart);
         var partyDanceId = this.state.danceId;
         this.props.onPartySubmit({ name: partyName, locationId: partyLocationId, start: partyStart, danceId: partyDanceId });
         this.setState({
